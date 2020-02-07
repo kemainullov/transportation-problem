@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimary">@color/white</color>
+    <color name="defaultTextColor">@color/black</color>
+    <color name="colorPrimaryDark">@color/grey</color>
+    <color name="colorAccent">@color/grey</color>
+    <color name="grey">#BDBDBD</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+
+    <color name="suppliers">#FC4141</color>
+    <color name="consumers">#3CFD2E</color>
+    <color name="costs">#2654FC</color>
+    <color name="solution">#F7DB29</color>
+
+    <color name="transparent_suppliers">#33FC4141</color>
+    <color name="transparent_consumers">#333CFD2E</color>
+    <color name="transparent_costs">#332654FC</color>
+    <color name="transparent_solution">#33F7DB29</color>
+
+    <color name="transparent">#00000000</color>
 </resources>

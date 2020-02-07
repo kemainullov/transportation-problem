@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/item_suppliers"
+        android:title="@string/suppliers"
+        app:exb_color="@color/suppliers"
+        app:exb_icon="@drawable/ic_home"/>
+
+    <item
+        android:id="@+id/item_consumers"
+        android:title="@string/consumers"
+        app:exb_color="@color/consumers"
+        app:exb_icon="@drawable/ic_users"/>
+
+    <item
+        android:id="@+id/item_costs"
+        android:title="@string/costs"
+        app:exb_color="@color/costs"
+        app:exb_icon="@drawable/ic_list"/>
+
+    <item
+        android:id="@+id/item_solution"
+        android:title="@string/solution"
+        app:exb_color="@color/solution"
+        app:exb_icon="@drawable/ic_route"/>
+
+</menu>

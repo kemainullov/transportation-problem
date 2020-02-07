@@ -1,3 +1,36 @@
 <resources>
-    <string name="app_name">transportation-problem</string>
+    //placeholders
+    <string name="two_words_separated_by_colon">%1$s: %2$s</string>
+    <string name="two_words_separated_by_comma">%1$s, %2$s</string>
+    <string name="two_words_separated_by_space">%1$s %2$s</string>
+    <string name="two_words_without_separating">%1$s%2$s</string>
+
+
+    <string name="app_name">Transportation problem</string>
+    <string name="suppliers">Suppliers</string>
+    <string name="consumers">Consumers</string>
+    <string name="supplier_a">Supplier A</string>
+    <string name="consumer_b">Consumer B</string>
+    <string name="demands">Demands</string>
+    <string name="supplies">Supplies</string>
+    <string name="demand">Demand</string>
+    <string name="supply">Supply</string>
+    <string name="costs">Costs</string>
+    <string name="solution">Solution</string>
+    <string name="archive">Archive</string>
+    <string name="about_app">About spp</string>
+    <string name="exit">Exit</string>
+    <string name="field_must_not_be_empty">The field must not be empty</string>
+
+    <string name="add_supplier">Add supplier</string>
+    <string name="add_consumer">Add consumer</string>
+    <string name="enter_supply">Enter supply</string>
+    <string name="enter_demand">Enter demand</string>
+    <string name="add">Add</string>
+    <string name="adding">Adding</string>
+    <string name="cancel">Cancel</string>
+    <string name="enter">Enter</string>
+    <string name="ok">OK</string>
+
+
 </resources>

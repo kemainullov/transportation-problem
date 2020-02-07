@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    //placeholders
+    <string name="two_words_separated_by_colon">%1$s: %2$s</string>
+    <string name="two_words_separated_by_comma">%1$s, %2$s</string>
+    <string name="two_words_separated_by_space">%1$s %2$s</string>
+    <string name="two_words_without_separating">%1$s%2$s</string>
+
+
+    <string name="app_name">Транспортная задача</string>
+    <string name="suppliers">Поставщики</string>
+    <string name="consumers">Потребители</string>
+    <string name="supplier_a">Поставщик A</string>
+    <string name="consumer_b">Потребитель B</string>
+    <string name="demands">Потребности</string>
+    <string name="supplies">Запасы</string>
+    <string name="demand">Потребность</string>
+    <string name="supply">Запас</string>
+    <string name="costs">Затраты</string>
+    <string name="solution">Решение</string>
+    <string name="archive">Архив</string>
+    <string name="about_app">О приложении</string>
+    <string name="exit">Выйти</string>
+    <string name="field_must_not_be_empty">Поле не должно быть пустым</string>
+
+    <string name="add_supplier">Добавить поставщика</string>
+    <string name="add_consumer">Добавить потребителя</string>
+    <string name="enter_supply">Введите запас</string>
+    <string name="enter_demand">Введите потребность</string>
+    <string name="add">Добавить</string>
+    <string name="adding">Добавление</string>
+    <string name="cancel">Отмена</string>
+    <string name="enter">Ввести</string>
+    <string name="ok">ОК</string>
+
+</resources>
