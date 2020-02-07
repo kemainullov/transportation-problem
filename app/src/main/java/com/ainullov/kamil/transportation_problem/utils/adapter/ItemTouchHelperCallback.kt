@@ -46,6 +46,7 @@ class ItemTouchHelperCallback(private val adapter: ItemTouchHelperAdapter) :
 
     override fun clearView(recyclerView: RecyclerView, viewHolder: ViewHolder) {
         super.clearView(recyclerView, viewHolder)
-        adapter.onItemClear(viewHolder)
+        if (!recyclerView.isComputingLayout)
+            adapter.onItemClear(viewHolder)
     }
 }

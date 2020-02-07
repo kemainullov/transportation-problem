@@ -1,4 +1,4 @@
-package com.ainullov.kamil.transportation_problem.utils.dialogs
+package com.ainullov.kamil.transportation_problem.utils.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 

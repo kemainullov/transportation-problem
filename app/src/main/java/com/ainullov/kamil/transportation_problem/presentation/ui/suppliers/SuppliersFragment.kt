@@ -14,11 +14,12 @@ import com.ainullov.kamil.transportation_problem.presentation.ui.suppliers.adapt
 import com.ainullov.kamil.transportation_problem.utils.adapter.ItemTouchHelperCallback
 import com.ainullov.kamil.transportation_problem.utils.dialogs.EditTextWithTwoButtonsAndTextViewDialog
 import com.ainullov.kamil.transportation_problem.utils.dialogs.OnDialogResultListener
-import com.ainullov.kamil.transportation_problem.utils.dialogs.OnStartDragListener
+import com.ainullov.kamil.transportation_problem.utils.adapter.OnStartDragListener
 import kotlinx.android.synthetic.main.suppliers_fragment.*
 
 
-class SuppliersFragment : Fragment(), OnDialogResultListener, OnStartDragListener {
+class SuppliersFragment : Fragment(), OnDialogResultListener,
+    OnStartDragListener {
 
     companion object {
         fun newInstance() = SuppliersFragment()

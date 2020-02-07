@@ -1,4 +1,4 @@
-package com.ainullov.kamil.transportation_problem.presentation.ui.suppliers.adapter
+package com.ainullov.kamil.transportation_problem.presentation.ui.consumers.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,25 +8,24 @@ import com.ainullov.kamil.transportation_problem.utils.adapter.ItemTouchHelperAd
 import com.ainullov.kamil.transportation_problem.utils.adapter.OnStartDragListener
 import java.util.*
 
-
-class SuppliersAdapter(
+class ConsumersAdapter(
     var list: MutableList<Int>,
     private val onClickListener: (Int) -> Unit,
     private val onLongClickListener: (Int) -> Unit,
     private val onDeleteClickListener: (Int) -> Unit,
     private val onStartDragListener: OnStartDragListener
-) : RecyclerView.Adapter<SupplierViewHolder>(), ItemTouchHelperAdapter {
+) : RecyclerView.Adapter<ConsumerViewHolder>(), ItemTouchHelperAdapter {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SupplierViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ConsumerViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(
-            R.layout.item_supplier, parent, false
+            R.layout.item_consumer, parent, false
         )
-        return SupplierViewHolder(itemView)
+        return ConsumerViewHolder(itemView)
     }
 
     override fun getItemCount(): Int = list.size
 
-    override fun onBindViewHolder(holder: SupplierViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ConsumerViewHolder, position: Int) {
         holder.bind(
             position = position,
             quantity = list[position],

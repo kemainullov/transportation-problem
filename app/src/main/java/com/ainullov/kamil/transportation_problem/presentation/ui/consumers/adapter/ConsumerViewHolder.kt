@@ -1,13 +1,13 @@
-package com.ainullov.kamil.transportation_problem.presentation.ui.suppliers.adapter
+package com.ainullov.kamil.transportation_problem.presentation.ui.consumers.adapter
 
 import android.view.MotionEvent
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.ainullov.kamil.transportation_problem.R
 import com.ainullov.kamil.transportation_problem.utils.adapter.OnStartDragListener
-import kotlinx.android.synthetic.main.item_supplier.view.*
+import kotlinx.android.synthetic.main.item_consumer.view.*
 
-class SupplierViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class ConsumerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     fun bind(
         position: Int,
@@ -17,14 +17,14 @@ class SupplierViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         onDeleteClickListener: (Int) -> Unit,
         onStartDragListener: OnStartDragListener
     ) {
-        itemView.tv_supplier.text = itemView.context.resources.getString(
+        itemView.tv_consumer.text = itemView.context.resources.getString(
             R.string.two_words_without_separating,
-            itemView.context.resources.getString(R.string.supplier_a),
+            itemView.context.resources.getString(R.string.consumer_b),
             (position + 1).toString()
         )
-        itemView.tv_supply.text = itemView.context.resources.getString(
+        itemView.tv_demand.text = itemView.context.resources.getString(
             R.string.two_words_separated_by_colon,
-            itemView.context.resources.getString(R.string.supply),
+            itemView.context.resources.getString(R.string.demand),
             quantity.toString()
         )
         itemView.iv_delete.setOnClickListener { onDeleteClickListener(position) }
