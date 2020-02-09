@@ -5,9 +5,11 @@ import java.io.File
 import java.util.Scanner
 import java.util.LinkedList
 
-class TransportationProblem(private val filename: String) {
-    private var supply: IntArray
-    private var demand: IntArray
+class TransportationProblem(
+    var supply: IntArray,
+    var demand: IntArray,
+    val initialCosts: Array<DoubleArray>
+) {
     private val costs: Array<DoubleArray>
     private var matrix: Array<Array<Shipment>>
 
@@ -16,32 +18,32 @@ class TransportationProblem(private val filename: String) {
     }
 
     init {
-        val scanner = Scanner(File(filename))
-        try {
-            val numSources = scanner.nextInt()
-            val numDestinations = scanner.nextInt()
-            val sources = MutableList(numSources) { scanner.nextInt() }
-            val destinations = MutableList(numDestinations) { scanner.nextInt() }
+        val numSources = demand.size
+        val numDestinations = demand.size
+        val sources: MutableList<Int> = supply.toMutableList()
+        val destinations: MutableList<Int> = demand.toMutableList()
 
-            // fix imbalance
-            val totalSources = sources.sum()
-            val totalDestinations = destinations.sum()
-            if (totalSources > totalDestinations)
-                destinations.add(totalSources - totalDestinations)
-            else if (totalDestinations > totalSources)
-                sources.add(totalDestinations - totalSources)
+        // fix imbalance
+        val totalSources = sources.sum()
+        val totalDestinations = destinations.sum()
+        if (totalSources > totalDestinations)
+            destinations.add(totalSources - totalDestinations)
+        else if (totalDestinations > totalSources)
+            sources.add(totalDestinations - totalSources)
+        println(sources.toString())
+        println(destinations.toString())
 
-            supply = sources.toIntArray()
-            demand = destinations.toIntArray()
+        supply = sources.toIntArray()
+        demand = destinations.toIntArray()
 
-            costs = Array(supply.size) { DoubleArray(demand.size) }
-            matrix = Array(supply.size) { Array(demand.size) { ZERO } }
-            for (i in 0 until numSources)
-                for (j in 0 until numDestinations)
-                    costs[i][j] = scanner.nextDouble()
-        } finally {
-            scanner.close()
-        }
+        costs = Array(supply.size) { DoubleArray(demand.size) }
+        matrix = Array(supply.size) { Array(demand.size) { ZERO } }
+        for (i in 0 until numSources)
+            for (j in 0 until numDestinations)
+                try {
+                    costs[i][j] = initialCosts[i][j]
+                } catch (e: Exception) {
+                }
     }
 
     private fun potentialMethod() {
@@ -84,7 +86,8 @@ class TransportationProblem(private val filename: String) {
             var plus = true
             for (shipment in move) {
                 shipment.quantity += if (plus) quantity else -quantity
-                matrix[shipment.row][shipment.column] = if (shipment.quantity == 0.0) ZERO else shipment
+                matrix[shipment.row][shipment.column] =
+                    if (shipment.quantity == 0.0) ZERO else shipment
                 plus = !plus
             }
             potentialMethod()
@@ -145,9 +148,9 @@ class TransportationProblem(private val filename: String) {
     }
 
     private fun printResult() {
-        val text = File(filename).readText()
-        println("$filename\n\n$text")
-        println("Optimal solution $filename\n")
+//        val text = File(filename).readText()
+//        println("$filename\n\n$text")
+//        println("Optimal solution $filename\n")
         var totalCosts = 0.0
 
         for (row in 0 until supply.size) {

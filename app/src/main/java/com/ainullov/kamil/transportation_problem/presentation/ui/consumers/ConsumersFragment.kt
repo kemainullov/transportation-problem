@@ -39,20 +39,20 @@ class ConsumersFragment : Fragment(), OnDialogResultListener, OnStartDragListene
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(ConsumersViewModel::class.java)
         setOnClickListeners()
-        initSuppliersRecycler()
+        initConsumersRecycler()
     }
 
-    private fun initSuppliersRecycler() {
+    private fun initConsumersRecycler() {
         consumersAdapter = ConsumersAdapter(
             mutableListOf(20, 30, 40, 20, 35, 55),
             onClickListener = { quantity ->
-                onSupplyItemClick(quantity)
+                onConsumerItemClick(quantity)
             },
             onLongClickListener = { quantity ->
-                onSupplyItemLongClick(quantity)
+                onConsumerItemLongClick(quantity)
             },
             onDeleteClickListener = { position ->
-                onSupplyItemDeleteClick(position)
+                onConsumerItemDeleteClick(position)
             },
             onStartDragListener = this)
         val callback: ItemTouchHelper.Callback = ItemTouchHelperCallback(consumersAdapter)
@@ -68,13 +68,13 @@ class ConsumersFragment : Fragment(), OnDialogResultListener, OnStartDragListene
         touchHelper.startDrag(viewHolder)
     }
 
-    private fun onSupplyItemClick(quantity: Int) {
+    private fun onConsumerItemClick(quantity: Int) {
     }
 
-    private fun onSupplyItemLongClick(quantity: Int) {
+    private fun onConsumerItemLongClick(quantity: Int) {
     }
 
-    private fun onSupplyItemDeleteClick(position: Int) {
+    private fun onConsumerItemDeleteClick(position: Int) {
         consumersAdapter.list.removeAt(position)
         consumersAdapter.notifyDataSetChanged()
     }
