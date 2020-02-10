@@ -38,5 +38,9 @@
     <string name="suppliers_a1_an">Suppliers:\nA[1]..A[n]</string>
     <string name="consumers_b1_bn">Consumers: B[1]..B[m]</string>
 
+    <string name="what_method_use_to_get_reference_plan">What method to use to get a reference plan?</string>
+    <string name="vogels_approximation_method">Vogel’s approximation method</string>
+    <string name="northwest_corner_method">Northwest corner method</string>
+    <string name="solve">Solve</string>
 
 </resources>

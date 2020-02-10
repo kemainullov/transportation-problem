@@ -41,7 +41,6 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this).get(MainActivityViewModel::class.java)
         initViewPager()
         initBottomBarListener()
-//        TransportationProblem("D:\\input1.txt").execute(1)
         setOnClickListeners()
     }
 

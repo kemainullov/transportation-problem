@@ -2,6 +2,7 @@ package com.ainullov.kamil.transportation_problem.transportation_problem
 
 import com.ainullov.kamil.transportation_problem.domain.entities.Shipment
 import com.ainullov.kamil.transportation_problem.domain.entities.TransportationProblemData
+import com.ainullov.kamil.transportation_problem.utils.Const
 import java.util.LinkedList
 
 class TransportationProblem(
@@ -161,12 +162,13 @@ class TransportationProblem(
         println("\nTotal costs: $totalCosts\n")
     }
 
-    fun execute(method: Int) {
+    fun execute(method: Int): Array<Array<Shipment>> {
         when (method) {
-            1 -> matrix = NorthwestCornerRule(supply, demand, balancedCosts).northWestCornerRule()
-            2 -> matrix = VogelApproximation(supply, demand, balancedCosts).vogelApproximation()
+            Const.ReferencePlanMethods.NORTHWEST_CORNER -> matrix = NorthwestCornerRule(supply, demand, balancedCosts).northWestCornerRule()
+            Const.ReferencePlanMethods.VOGELS_APPROXIMATION -> matrix = VogelApproximation(supply, demand, balancedCosts).vogelApproximation()
         }
         potentialMethod()
         printResult()
+        return matrix
     }
 }

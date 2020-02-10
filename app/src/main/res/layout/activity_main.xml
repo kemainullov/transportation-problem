@@ -83,7 +83,6 @@
                 android:layout_height="48dp"
                 android:gravity="center"
                 android:scaleType="fitXY"
-                android:src="@drawable/ic_more"
                 android:text="@string/archive"
                 android:textColor="@color/defaultTextColor" />
 

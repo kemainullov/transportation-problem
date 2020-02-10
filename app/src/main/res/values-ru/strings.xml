@@ -38,4 +38,9 @@
     <string name="suppliers_a1_an">Поставщики:\nA[1]..A[n]</string>
     <string name="consumers_b1_bn">Потребители: B[1]..B[m]</string>
 
+    <string name="what_method_use_to_get_reference_plan">Какой метод использовать, чтобы получить опорный план?</string>
+    <string name="vogels_approximation_method">Метод Фогеля</string>
+    <string name="northwest_corner_method">Метод северо-западного угла</string>
+    <string name="solve">Решить</string>
+
 </resources>

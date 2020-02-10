@@ -41,5 +41,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.1.0-beta01'
     //gson
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    //graph
+    implementation 'de.blox:graphview:0.6.1'
 
 }
