@@ -8,7 +8,8 @@ import com.ainullov.kamil.transportation_problem.R
 class CostsAdapter(
     var list: MutableList<Int>,
     private val onClickListener: (Int) -> Unit,
-    private val onLongClickListener: (Int) -> Unit
+    private val onLongClickListener: (Int) -> Unit,
+    private val onItemCostChangeListener: (Int, Int) -> Unit
 ) : RecyclerView.Adapter<CostViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CostViewHolder {
@@ -23,13 +24,14 @@ class CostsAdapter(
     override fun onBindViewHolder(holder: CostViewHolder, position: Int) {
         holder.bind(
             position = position,
-//            quantity = list[position],
             onClickListener = onClickListener,
-            onLongClickListener = onLongClickListener
+            onLongClickListener = onLongClickListener,
+            onItemCostChangeListener = onItemCostChangeListener
         )
     }
 
     fun updateData(list: MutableList<Int>) {
         this.list = list
+        notifyDataSetChanged()
     }
 }

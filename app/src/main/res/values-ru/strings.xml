@@ -8,6 +8,8 @@
 
 
     <string name="app_name">Транспортная задача</string>
+    <string name="preference_file_key">transportation_problem_settings</string>
+
     <string name="suppliers">Поставщики</string>
     <string name="consumers">Потребители</string>
     <string name="supplier_a">Поставщик A</string>
@@ -32,5 +34,8 @@
     <string name="cancel">Отмена</string>
     <string name="enter">Ввести</string>
     <string name="ok">ОК</string>
+
+    <string name="suppliers_a1_an">Поставщики:\nA[1]..A[n]</string>
+    <string name="consumers_b1_bn">Потребители: B[1]..B[m]</string>
 
 </resources>

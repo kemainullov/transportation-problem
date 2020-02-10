@@ -3,6 +3,7 @@
     package="com.ainullov.kamil.transportation_problem">
 
     <application
+        android:name=".presentation.base.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"

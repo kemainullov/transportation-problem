@@ -7,6 +7,9 @@
 
 
     <string name="app_name">Transportation problem</string>
+    <string name="preference_file_key">transportation_problem_settings</string>
+
+
     <string name="suppliers">Suppliers</string>
     <string name="consumers">Consumers</string>
     <string name="supplier_a">Supplier A</string>
@@ -31,6 +34,9 @@
     <string name="cancel">Cancel</string>
     <string name="enter">Enter</string>
     <string name="ok">OK</string>
+
+    <string name="suppliers_a1_an">Suppliers:\nA[1]..A[n]</string>
+    <string name="consumers_b1_bn">Consumers: B[1]..B[m]</string>
 
 
 </resources>

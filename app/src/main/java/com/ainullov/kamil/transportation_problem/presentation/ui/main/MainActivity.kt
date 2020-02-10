@@ -9,11 +9,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
 import com.ainullov.kamil.transportation_problem.R
+import com.ainullov.kamil.transportation_problem.presentation.base.App
 import com.ainullov.kamil.transportation_problem.presentation.ui.consumers.ConsumersFragment
 import com.ainullov.kamil.transportation_problem.presentation.ui.costs.CostsFragment
 import com.ainullov.kamil.transportation_problem.presentation.ui.main.pager_adapter.MainPagerAdapter
 import com.ainullov.kamil.transportation_problem.presentation.ui.solution.SolutionFragment
 import com.ainullov.kamil.transportation_problem.presentation.ui.suppliers.SuppliersFragment
+import com.ainullov.kamil.transportation_problem.utils.singletons.TransportationProblemSingleton
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -41,6 +43,11 @@ class MainActivity : AppCompatActivity() {
         initBottomBarListener()
 //        TransportationProblem("D:\\input1.txt").execute(1)
         setOnClickListeners()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        App.transportationProblemSharedPreferences.setTransportationProblemData(TransportationProblemSingleton.transportationProblemData)
     }
 
     private fun setOnClickListeners() {

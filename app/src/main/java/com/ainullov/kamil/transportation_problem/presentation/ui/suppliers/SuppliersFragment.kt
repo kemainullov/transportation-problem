@@ -15,6 +15,7 @@ import com.ainullov.kamil.transportation_problem.utils.adapter.ItemTouchHelperCa
 import com.ainullov.kamil.transportation_problem.utils.dialogs.EditTextWithTwoButtonsAndTextViewDialog
 import com.ainullov.kamil.transportation_problem.utils.dialogs.OnDialogResultListener
 import com.ainullov.kamil.transportation_problem.utils.adapter.OnStartDragListener
+import com.ainullov.kamil.transportation_problem.utils.singletons.TransportationProblemSingleton
 import kotlinx.android.synthetic.main.suppliers_fragment.*
 
 
@@ -43,9 +44,14 @@ class SuppliersFragment : Fragment(), OnDialogResultListener,
         initSuppliersRecycler()
     }
 
+    override fun onPause() {
+        super.onPause()
+        TransportationProblemSingleton.transportationProblemData.supply = suppliersAdapter.list.toIntArray()
+    }
+
     private fun initSuppliersRecycler() {
         suppliersAdapter = SuppliersAdapter(
-            mutableListOf(20, 30, 40, 20, 35, 55),
+            TransportationProblemSingleton.transportationProblemData.supply.toMutableList(),
             onClickListener = { quantity ->
                 onSupplyItemClick(quantity)
             },

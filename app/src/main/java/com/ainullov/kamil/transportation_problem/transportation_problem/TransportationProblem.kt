@@ -1,16 +1,16 @@
 package com.ainullov.kamil.transportation_problem.transportation_problem
 
 import com.ainullov.kamil.transportation_problem.domain.entities.Shipment
-import java.io.File
-import java.util.Scanner
+import com.ainullov.kamil.transportation_problem.domain.entities.TransportationProblemData
 import java.util.LinkedList
 
 class TransportationProblem(
-    var supply: IntArray,
-    var demand: IntArray,
-    val initialCosts: Array<DoubleArray>
+    transportationProblemData: TransportationProblemData
 ) {
-    private val costs: Array<DoubleArray>
+    var supply: IntArray = transportationProblemData.supply
+    var demand: IntArray = transportationProblemData.demand
+    val costs: Array<DoubleArray> = transportationProblemData.costs
+    private val balancedCosts: Array<DoubleArray>
     private var matrix: Array<Array<Shipment>>
 
     companion object {
@@ -30,18 +30,16 @@ class TransportationProblem(
             destinations.add(totalSources - totalDestinations)
         else if (totalDestinations > totalSources)
             sources.add(totalDestinations - totalSources)
-        println(sources.toString())
-        println(destinations.toString())
 
         supply = sources.toIntArray()
         demand = destinations.toIntArray()
 
-        costs = Array(supply.size) { DoubleArray(demand.size) }
+        balancedCosts = Array(supply.size) { DoubleArray(demand.size) }
         matrix = Array(supply.size) { Array(demand.size) { ZERO } }
         for (i in 0 until numSources)
             for (j in 0 until numDestinations)
                 try {
-                    costs[i][j] = initialCosts[i][j]
+                    balancedCosts[i][j] = costs[i][j]
                 } catch (e: Exception) {
                 }
     }
@@ -55,7 +53,7 @@ class TransportationProblem(
         for (row in 0 until supply.size) {
             for (column in 0 until demand.size) {
                 if (matrix[row][column] != ZERO) continue
-                val trial = Shipment(0.0, costs[row][column], row, column)
+                val trial = Shipment(0.0, balancedCosts[row][column], row, column)
                 val path = getClosedPath(trial)
                 var reduction = 0.0
                 var lowestQuantity = Int.MAX_VALUE.toDouble()
@@ -136,7 +134,7 @@ class TransportationProblem(
             for (row in 0 until supply.size) {
                 for (column in 0 until demand.size) {
                     if (matrix[row][column] == ZERO) {
-                        val dummy = Shipment(eps, costs[row][column], row, column)
+                        val dummy = Shipment(eps, balancedCosts[row][column], row, column)
                         if (getClosedPath(dummy).size == 0) {
                             matrix[row][column] = dummy
                             return
@@ -148,9 +146,6 @@ class TransportationProblem(
     }
 
     private fun printResult() {
-//        val text = File(filename).readText()
-//        println("$filename\n\n$text")
-//        println("Optimal solution $filename\n")
         var totalCosts = 0.0
 
         for (row in 0 until supply.size) {
@@ -168,8 +163,8 @@ class TransportationProblem(
 
     fun execute(method: Int) {
         when (method) {
-            1 -> matrix = NorthwestCornerRule(supply, demand, costs).northWestCornerRule()
-            2 -> matrix = VogelApproximation(supply, demand, costs).vogelApproximation()
+            1 -> matrix = NorthwestCornerRule(supply, demand, balancedCosts).northWestCornerRule()
+            2 -> matrix = VogelApproximation(supply, demand, balancedCosts).vogelApproximation()
         }
         potentialMethod()
         printResult()

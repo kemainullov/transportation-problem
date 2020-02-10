@@ -1,6 +1,7 @@
 package com.ainullov.kamil.transportation_problem.presentation.ui.costs
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +13,9 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.ainullov.kamil.transportation_problem.R
 import com.ainullov.kamil.transportation_problem.presentation.ui.costs.adapter.CostsAdapter
+import com.ainullov.kamil.transportation_problem.utils.singletons.TransportationProblemSingleton
 import kotlinx.android.synthetic.main.costs_fragment.*
+import java.lang.Exception
 
 
 class CostsFragment : Fragment() {
@@ -23,9 +26,8 @@ class CostsFragment : Fragment() {
 
     private lateinit var viewModel: CostsViewModel
     private lateinit var costsAdapter: CostsAdapter
-    val consumers = 17
-    val suppliers = 20
-    val initialList = List<Int>(consumers*suppliers) {0}
+    lateinit var consumers: IntArray
+    lateinit var suppliers: IntArray
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,62 +39,65 @@ class CostsFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(CostsViewModel::class.java)
-
-//        etDescriptionValue.movementMethod = ScrollingMovementMethod()
-//        etDescriptionValue.setOnTouchListener { v, event ->
-//            settingsSV.requestDisallowInterceptTouchEvent(true)
-//            if (!v.canScrollVertically(1))
-//                tvTransparent.visibility = View.GONE else tvTransparent.visibility = View.VISIBLE
-//            false
-//        }
-
+        consumers = TransportationProblemSingleton.transportationProblemData.demand
+        suppliers = TransportationProblemSingleton.transportationProblemData.supply
         initCostsRecycler()
-//        addGridLayoutWithEditTexts()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        checkSituation()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        saveCostsMatrix()
+    }
+
+    private fun saveCostsMatrix() {
+        if (suppliers.isNotEmpty() && consumers.isNotEmpty()) {
+            val costs: Array<DoubleArray> = Array(suppliers.size) { DoubleArray(consumers.size) }
+            var counter = 0
+            for (i in 0 until suppliers.size) {
+                for (j in 0 until consumers.size) {
+                    costs[i][j] = costsAdapter.list[counter].toDouble()
+                    counter++
+                }
+            }
+            TransportationProblemSingleton.transportationProblemData.costs = costs
+        }
     }
 
     private fun initCostsRecycler() {
         costsAdapter = CostsAdapter(
-            initialList.toMutableList(),
+            MutableList<Int>(consumers.size * suppliers.size) { 0 },
             onClickListener = { quantity ->
             },
             onLongClickListener = { quantity ->
+            },
+            onItemCostChangeListener = { position, cost ->
+                costsAdapter.list[position] = cost
             })
 
         rv_costs.layoutManager =
-            GridLayoutManager(activity, consumers)
+            GridLayoutManager(activity, if (consumers.isNotEmpty()) consumers.size else 1)
         rv_costs.adapter = costsAdapter
     }
 
-//    private fun addGridLayoutWithEditTexts(){
-//        val editTexts =
-//            Array(10) { arrayOfNulls<EditText>(10) }
-//
-//        val gridLayout = GridLayout(activity)
-//
-//        //define how many rows and columns to be used in the layout
-//        //define how many rows and columns to be used in the layout
-//        gridLayout.setRowCount(10)
-//        gridLayout.setColumnCount(10)
-//
-//        for (i in 0 until 10) {
-//            for (j in 0 until 10) {
-//                editTexts[i][j] = EditText(activity)
-//                setPosition(editTexts[i][j], i, j)
-//                gridLayout.addView(editTexts[i][j])
-//            }
-//        }
-//        nested_sv_costs.addView(gridLayout)
-//    }
-//
-//    //putting the edit text according to row and column index
-//    private fun setPosition(editText: EditText?, row: Int, column: Int){
-//        val param: GridLayout.LayoutParams = GridLayout.LayoutParams()
-//        param.width = 400
-//        param.height = 400
-//        param.setGravity(Gravity.CENTER)
-//        param.rowSpec = GridLayout.spec(row)
-//        param.columnSpec = GridLayout.spec(column)
-//        editText?.layoutParams = param
-//    }
+    private fun checkSituation() {
+        if (suppliers.size != TransportationProblemSingleton.transportationProblemData.supply.size || consumers.size != TransportationProblemSingleton.transportationProblemData.demand.size)
+            if (TransportationProblemSingleton.transportationProblemData.supply.isNotEmpty() && TransportationProblemSingleton.transportationProblemData.demand.isNotEmpty())
+                loadMatrix()
+    }
+
+    private fun loadMatrix() {
+        suppliers = TransportationProblemSingleton.transportationProblemData.supply
+        consumers = TransportationProblemSingleton.transportationProblemData.demand
+        initCostsRecycler()
+//        rv_costs.layoutManager =
+//            GridLayoutManager(activity, if (consumers.size != 0) consumers.size else 1)
+//        costsAdapter.updateData(MutableList<Int>(consumers.size * suppliers.size) { 0 })
+    }
+
 
 }

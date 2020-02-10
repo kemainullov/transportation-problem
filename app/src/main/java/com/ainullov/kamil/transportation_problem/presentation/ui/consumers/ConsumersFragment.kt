@@ -16,6 +16,7 @@ import com.ainullov.kamil.transportation_problem.utils.adapter.ItemTouchHelperCa
 import com.ainullov.kamil.transportation_problem.utils.adapter.OnStartDragListener
 import com.ainullov.kamil.transportation_problem.utils.dialogs.EditTextWithTwoButtonsAndTextViewDialog
 import com.ainullov.kamil.transportation_problem.utils.dialogs.OnDialogResultListener
+import com.ainullov.kamil.transportation_problem.utils.singletons.TransportationProblemSingleton
 import kotlinx.android.synthetic.main.consumers_fragment.*
 
 class ConsumersFragment : Fragment(), OnDialogResultListener, OnStartDragListener {
@@ -42,9 +43,14 @@ class ConsumersFragment : Fragment(), OnDialogResultListener, OnStartDragListene
         initConsumersRecycler()
     }
 
+    override fun onPause() {
+        super.onPause()
+        TransportationProblemSingleton.transportationProblemData.demand = consumersAdapter.list.toIntArray()
+    }
+
     private fun initConsumersRecycler() {
         consumersAdapter = ConsumersAdapter(
-            mutableListOf(20, 30, 40, 20, 35, 55),
+            TransportationProblemSingleton.transportationProblemData.demand.toMutableList(),
             onClickListener = { quantity ->
                 onConsumerItemClick(quantity)
             },
