@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.ainullov.kamil.transportation_problem.R
 import com.ainullov.kamil.transportation_problem.domain.entities.NodeData
 import com.ainullov.kamil.transportation_problem.domain.entities.Shipment
-import com.ainullov.kamil.transportation_problem.domain.entities.Solution
+import com.ainullov.kamil.transportation_problem.domain.entities.ProblemSolution
 import com.ainullov.kamil.transportation_problem.presentation.ui.solution.graph.GraphAdapter
 import com.ainullov.kamil.transportation_problem.transportation_problem.TransportationProblem
 import com.ainullov.kamil.transportation_problem.utils.Const
@@ -30,7 +30,7 @@ class SolutionFragment : Fragment() {
 
     private lateinit var viewModel: SolutionViewModel
     private var method = Const.ReferencePlanMethods.NORTHWEST_CORNER
-    private lateinit var solution: Solution
+    private lateinit var problemSolution: ProblemSolution
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -69,7 +69,7 @@ class SolutionFragment : Fragment() {
 
     private fun setOnClickListeners() {
         btn_solve.setOnClickListener {
-            solution =
+            problemSolution =
                 TransportationProblem(TransportationProblemSingleton.transportationProblemData).execute(
                     method
                 )
@@ -77,12 +77,12 @@ class SolutionFragment : Fragment() {
             tv_minimum_costs.text = getString(
                 R.string.two_words_separated_by_colon,
                 getString(R.string.minimum_costs),
-                solution.minimumCosts.toString()
+                problemSolution.minimumCosts.toString()
             )
 
             tv_solution_description.visibility = View.VISIBLE
-            tv_solution_description.text = getSolutionDescriptionText(solution, resources)
-            drawResultGraph(solution.matrix)
+            tv_solution_description.text = getSolutionDescriptionText(problemSolution, resources)
+            drawResultGraph(problemSolution.matrix)
             cl_result.visibility = View.VISIBLE
         }
     }

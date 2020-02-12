@@ -4,7 +4,7 @@ import android.content.res.Resources
 import com.ainullov.kamil.transportation_problem.R
 import com.ainullov.kamil.transportation_problem.domain.entities.NodeData
 import com.ainullov.kamil.transportation_problem.domain.entities.Shipment
-import com.ainullov.kamil.transportation_problem.domain.entities.Solution
+import com.ainullov.kamil.transportation_problem.domain.entities.ProblemSolution
 import com.ainullov.kamil.transportation_problem.transportation_problem.TransportationProblem
 import java.lang.StringBuilder
 
@@ -16,11 +16,11 @@ fun getColumn(array: Array<Array<Shipment>>, index: Int): Array<Shipment?> {
     return column
 }
 
-fun getSolutionDescriptionText(solution: Solution, resources: Resources): String {
+fun getSolutionDescriptionText(problemSolution: ProblemSolution, resources: Resources): String {
     val stringBuilder = StringBuilder()
-    for (row in solution.transportationProblemData.supply.indices) {
-        for (column in solution.transportationProblemData.demand.indices) {
-            val shipment = solution.matrix[row][column]
+    for (row in problemSolution.transportationProblemData.supply.indices) {
+        for (column in problemSolution.transportationProblemData.demand.indices) {
+            val shipment = problemSolution.matrix[row][column]
             if (shipment != TransportationProblem.ZERO && shipment.row == row && shipment.column == column) {
                 stringBuilder.append(resources.getString(R.string.supplier_a))
                 stringBuilder.append("${row + 1} ")
