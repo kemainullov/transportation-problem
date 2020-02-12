@@ -45,13 +45,6 @@ class SolutionFragment : Fragment() {
         initCheckBoxChangeListener()
         setOnClickListeners()
         initGraphAdapter()
-
-//        cl_result.setOnTouchListener { v, event ->
-//            sv_solution.requestDisallowInterceptTouchEvent(true)
-////            if (!v.canScrollVertically(1))
-////                tvTransparent.visibility = View.GONE else tvTransparent.visibility = View.VISIBLE
-//            false
-//        }
     }
 
     override fun onResume() {
@@ -87,7 +80,7 @@ class SolutionFragment : Fragment() {
                 solution.minimumCosts.toString()
             )
 
-//            tv_solution_description.visibility = View.VISIBLE
+            tv_solution_description.visibility = View.VISIBLE
             tv_solution_description.text = getSolutionDescriptionText(solution)
             drawResultGraph(solution.matrix)
         }
@@ -100,6 +93,10 @@ class SolutionFragment : Fragment() {
             onClickListener = {},
             onLongClickListener = {})
         gv_graph.adapter = adapter
+        gv_graph.setOnTouchListener { v, event ->
+            sv_solution.requestDisallowInterceptTouchEvent(true)
+            false
+        }
         adapter.algorithm = FruchtermanReingoldAlgorithm(1000)
     }
 
