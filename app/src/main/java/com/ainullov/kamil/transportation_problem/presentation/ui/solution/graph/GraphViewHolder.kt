@@ -4,6 +4,7 @@ import android.view.View
 import com.ainullov.kamil.transportation_problem.R
 import com.ainullov.kamil.transportation_problem.domain.entities.NodeData
 import com.ainullov.kamil.transportation_problem.utils.dialogs.OnClickGraphItemDialog
+import com.ainullov.kamil.transportation_problem.utils.generateTextForGraphItem
 import de.blox.graphview.Graph
 import de.blox.graphview.ViewHolder
 import kotlinx.android.synthetic.main.item_node.view.*
@@ -24,7 +25,7 @@ class GraphViewHolder(itemView: View) : ViewHolder(itemView) {
                 OnClickGraphItemDialog(
                     itemView.context,
                     "${nodeData.text} ${if (nodeData.isSupplier) itemView.resources.getString(R.string.transports_colon) else itemView.resources.getString(R.string.expects_colon)}\n" +
-                            ""
+                            generateTextForGraphItem(nodeData, itemView.resources)
                 ).show()
 
 

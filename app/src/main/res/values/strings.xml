@@ -13,7 +13,9 @@
     <string name="suppliers">Suppliers</string>
     <string name="consumers">Consumers</string>
     <string name="supplier_a">Supplier A</string>
+    <string name="from_supplier_a">from Supplier A</string>
     <string name="consumer_b">Consumer B</string>
+    <string name="consumer_b_diff_ru_ending">Consumer B</string>
     <string name="demands">Demands</string>
     <string name="supplies">Supplies</string>
     <string name="demand">Demand</string>
@@ -43,6 +45,8 @@
     <string name="northwest_corner_method">Northwest corner method</string>
     <string name="solve">Solve</string>
     <string name="minimum_costs">Minimum costs</string>
+    <string name="transport_to">transport to</string>
+    <string name="units_amount_of_goods">units amount of goods =</string>
 
     <string name="transports_colon">transports:</string>
     <string name="expects_colon">expects:</string>

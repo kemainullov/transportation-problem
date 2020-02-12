@@ -9,20 +9,27 @@ import com.ainullov.kamil.transportation_problem.transportation_problem.Transpor
 import java.lang.StringBuilder
 
 fun getColumn(array: Array<Array<Shipment>>, index: Int): Array<Shipment?> {
-    val column = arrayOfNulls<Shipment>(array[0].size - 1)
-    for (i in column.indices)
+    val column = arrayOfNulls<Shipment>(array[0].size) // or size -1?
+    for (i in column.indices) {
         column[i] = array[i][index]
+    }
     return column
 }
 
-fun getSolutionDescriptionText(solution: Solution): String {
+fun getSolutionDescriptionText(solution: Solution, resources: Resources): String {
     val stringBuilder = StringBuilder()
     for (row in solution.transportationProblemData.supply.indices) {
         for (column in solution.transportationProblemData.demand.indices) {
             val shipment = solution.matrix[row][column]
             if (shipment != TransportationProblem.ZERO && shipment.row == row && shipment.column == column) {
-                stringBuilder.append("A${row+1} -> B${column+1}: ${shipment.quantity.toInt()} ед. товара на сумму = ${shipment.quantity.toInt() * shipment.costPerUnit.toInt()}")
-                stringBuilder.append("\n")
+                stringBuilder.append(resources.getString(R.string.supplier_a))
+                stringBuilder.append("${row + 1} ")
+                stringBuilder.append("${resources.getString(R.string.transport_to)} ")
+                stringBuilder.append("${resources.getString(R.string.consumer_b_diff_ru_ending)}${column + 1}:\n")
+                stringBuilder.append("${shipment.quantity.toInt()} ")
+                stringBuilder.append("${resources.getString(R.string.units_amount_of_goods)} ")
+                stringBuilder.append("${shipment.quantity.toInt() * shipment.costPerUnit.toInt()}")
+                stringBuilder.append("\n\n")
             }
         }
     }
@@ -31,16 +38,27 @@ fun getSolutionDescriptionText(solution: Solution): String {
 
 
 fun generateTextForGraphItem(nodeData: NodeData, resources: Resources): String {
+    val stringBuilder = StringBuilder("")
+    var counter = 1
     if (nodeData.isSupplier) {
-        for (item in nodeData.array){
+        for (item in nodeData.array.filter { it.quantity.toInt() != 0 }) {
+            stringBuilder.append("${counter}) ")
+            stringBuilder.append("${item.quantity.toInt()} ")
+            stringBuilder.append("${resources.getString(R.string.units_amount_of_goods)} ")
+            stringBuilder.append("${item.quantity.toInt() * item.costPerUnit.toInt()} ")
+            stringBuilder.append("${resources.getString(R.string.consumer_b_diff_ru_ending)}${item.column + 1}.\n")
+            counter++
         }
     } else {
-        for (item in nodeData.array){
-
+        for (item in nodeData.array.filter { it.quantity.toInt() != 0 }) {
+            stringBuilder.append("${counter}) ")
+            stringBuilder.append("${item.quantity.toInt()} ")
+            stringBuilder.append("${resources.getString(R.string.units_amount_of_goods)} ")
+            stringBuilder.append("${item.quantity.toInt() * item.costPerUnit.toInt()} ")
+            stringBuilder.append("${resources.getString(R.string.from_supplier_a)}${item.row + 1}.\n")
+            counter++
         }
     }
-
-
-    return ""
+    return stringBuilder.toString()
 }
 

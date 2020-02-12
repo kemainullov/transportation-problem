@@ -13,7 +13,9 @@
     <string name="suppliers">Поставщики</string>
     <string name="consumers">Потребители</string>
     <string name="supplier_a">Поставщик A</string>
+    <string name="from_supplier_a">от Поставщика A</string>
     <string name="consumer_b">Потребитель B</string>
+    <string name="consumer_b_diff_ru_ending">Потребителю B</string>
     <string name="demands">Потребности</string>
     <string name="supplies">Запасы</string>
     <string name="demand">Потребность</string>
@@ -43,6 +45,8 @@
     <string name="northwest_corner_method">Метод северо-западного угла</string>
     <string name="solve">Решить</string>
     <string name="minimum_costs">Минимальные затраты</string>
+    <string name="transport_to">перевозит</string>
+    <string name="units_amount_of_goods">ед. товара на сумму =</string>
 
     <string name="transports_colon">перевозит:</string>
     <string name="expects_colon">ожидает:</string>

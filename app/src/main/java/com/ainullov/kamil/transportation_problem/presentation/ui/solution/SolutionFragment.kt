@@ -81,13 +81,14 @@ class SolutionFragment : Fragment() {
             )
 
             tv_solution_description.visibility = View.VISIBLE
-            tv_solution_description.text = getSolutionDescriptionText(solution)
+            tv_solution_description.text = getSolutionDescriptionText(solution, resources)
             drawResultGraph(solution.matrix)
+            cl_result.visibility = View.VISIBLE
         }
     }
 
 
-    private fun initGraphAdapter() { // Иначе вылетает, посмотреть что можно сделать
+    private fun initGraphAdapter() {
         val graph = Graph()
         val adapter = GraphAdapter(graph,
             onClickListener = {},
