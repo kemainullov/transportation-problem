@@ -2,6 +2,7 @@ package com.ainullov.kamil.transportation_problem.utils.dialogs
 
 import android.app.Dialog
 import android.os.Bundle
+import android.view.WindowManager.LayoutParams.FLAG_DIM_BEHIND
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.ainullov.kamil.transportation_problem.R
@@ -39,6 +40,7 @@ class EditTextWithTwoButtonsAndTextViewDialog : DialogFragment() {
             val dialog = Dialog(it)
             dialog.setContentView(R.layout.dialog_edittext_with_two_buttons_and_textview)
             setOnClickListeners(dialog)
+//            dialog.window?.clearFlags(FLAG_DIM_BEHIND) // убрать фон
 
             dialog.tv_title.text =
                 arguments?.getString("title") ?: resources.getString(R.string.adding)

@@ -42,5 +42,9 @@
     <string name="vogels_approximation_method">Метод Фогеля</string>
     <string name="northwest_corner_method">Метод северо-западного угла</string>
     <string name="solve">Решить</string>
+    <string name="minimum_costs">Минимальные затраты</string>
+
+    <string name="transports_colon">перевозит:</string>
+    <string name="expects_colon">ожидает:</string>
 
 </resources>

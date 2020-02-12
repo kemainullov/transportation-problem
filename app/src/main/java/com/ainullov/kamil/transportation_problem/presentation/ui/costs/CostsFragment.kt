@@ -42,6 +42,7 @@ class CostsFragment : Fragment() {
         consumers = TransportationProblemSingleton.transportationProblemData.demand
         suppliers = TransportationProblemSingleton.transportationProblemData.supply
         initCostsRecycler()
+        fillMatrix()
     }
 
     override fun onResume() {
@@ -65,7 +66,15 @@ class CostsFragment : Fragment() {
                 }
             }
             TransportationProblemSingleton.transportationProblemData.costs = costs
+            printMatrix(costs)
         }
+    }
+
+    fun printMatrix(costs: Array<DoubleArray>) {
+        for (i in costs)
+            for (j in i)
+                print("${j.toString()} ")
+        println()
     }
 
     private fun initCostsRecycler() {
@@ -85,9 +94,10 @@ class CostsFragment : Fragment() {
     }
 
     private fun checkSituation() {
-        if (suppliers.size != TransportationProblemSingleton.transportationProblemData.supply.size || consumers.size != TransportationProblemSingleton.transportationProblemData.demand.size)
+        if (suppliers.size != TransportationProblemSingleton.transportationProblemData.supply.size || consumers.size != TransportationProblemSingleton.transportationProblemData.demand.size) {
             if (TransportationProblemSingleton.transportationProblemData.supply.isNotEmpty() && TransportationProblemSingleton.transportationProblemData.demand.isNotEmpty())
                 loadMatrix()
+        }
     }
 
     private fun loadMatrix() {
@@ -97,6 +107,22 @@ class CostsFragment : Fragment() {
 //        rv_costs.layoutManager =
 //            GridLayoutManager(activity, if (consumers.size != 0) consumers.size else 1)
 //        costsAdapter.updateData(MutableList<Int>(consumers.size * suppliers.size) { 0 })
+    }
+
+    private fun fillMatrix() {
+        if (suppliers.size == TransportationProblemSingleton.transportationProblemData.supply.size && consumers.size == TransportationProblemSingleton.transportationProblemData.demand.size) {
+            if (TransportationProblemSingleton.transportationProblemData.costs.isNotEmpty()) {
+                val list = mutableListOf<Int>()
+                for (i in TransportationProblemSingleton.transportationProblemData.costs) {
+                    for (j in i) {
+                        list.add(j.toInt())
+                    }
+                }
+                costsAdapter.updateData(list)
+                printMatrix(TransportationProblemSingleton.transportationProblemData.costs)
+
+            }
+        }
     }
 
 

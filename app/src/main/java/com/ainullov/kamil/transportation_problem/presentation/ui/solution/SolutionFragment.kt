@@ -7,10 +7,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.ainullov.kamil.transportation_problem.R
+import com.ainullov.kamil.transportation_problem.domain.entities.NodeData
 import com.ainullov.kamil.transportation_problem.domain.entities.Shipment
+import com.ainullov.kamil.transportation_problem.domain.entities.Solution
 import com.ainullov.kamil.transportation_problem.presentation.ui.solution.graph.GraphAdapter
 import com.ainullov.kamil.transportation_problem.transportation_problem.TransportationProblem
 import com.ainullov.kamil.transportation_problem.utils.Const
+import com.ainullov.kamil.transportation_problem.utils.getColumn
+import com.ainullov.kamil.transportation_problem.utils.getSolutionDescriptionText
 import com.ainullov.kamil.transportation_problem.utils.singletons.TransportationProblemSingleton
 import de.blox.graphview.Graph
 import de.blox.graphview.Node
@@ -26,7 +30,7 @@ class SolutionFragment : Fragment() {
 
     private lateinit var viewModel: SolutionViewModel
     private var method = Const.ReferencePlanMethods.NORTHWEST_CORNER
-    private lateinit var result: Array<Array<Shipment>>
+    private lateinit var solution: Solution
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,6 +45,13 @@ class SolutionFragment : Fragment() {
         initCheckBoxChangeListener()
         setOnClickListeners()
         initGraphAdapter()
+
+//        cl_result.setOnTouchListener { v, event ->
+//            sv_solution.requestDisallowInterceptTouchEvent(true)
+////            if (!v.canScrollVertically(1))
+////                tvTransparent.visibility = View.GONE else tvTransparent.visibility = View.VISIBLE
+//            false
+//        }
     }
 
     override fun onResume() {
@@ -65,13 +76,23 @@ class SolutionFragment : Fragment() {
 
     private fun setOnClickListeners() {
         btn_solve.setOnClickListener {
-            result =
+            solution =
                 TransportationProblem(TransportationProblemSingleton.transportationProblemData).execute(
                     method
                 )
-            drawResultGraph(result)
+            tv_minimum_costs.visibility = View.VISIBLE
+            tv_minimum_costs.text = getString(
+                R.string.two_words_separated_by_colon,
+                getString(R.string.minimum_costs),
+                solution.minimumCosts.toString()
+            )
+
+//            tv_solution_description.visibility = View.VISIBLE
+            tv_solution_description.text = getSolutionDescriptionText(solution)
+            drawResultGraph(solution.matrix)
         }
     }
+
 
     private fun initGraphAdapter() { // Иначе вылетает, посмотреть что можно сделать
         val graph = Graph()
@@ -90,10 +111,14 @@ class SolutionFragment : Fragment() {
         for (suppliers in TransportationProblemSingleton.transportationProblemData.supply.indices) {
             listOfSuppliers.add(
                 Node(
-                    getString(
-                        R.string.two_words_without_separating,
-                        getString(R.string.supplier_a),
-                        (suppliers + 1).toString()
+                    NodeData(
+                        getString(
+                            R.string.two_words_without_separating,
+                            getString(R.string.supplier_a),
+                            (suppliers + 1).toString()
+                        ),
+                        true,
+                        result[suppliers]
                     )
                 )
             )
@@ -101,23 +126,23 @@ class SolutionFragment : Fragment() {
         for (consumers in TransportationProblemSingleton.transportationProblemData.demand.indices) {
             listOfConsumers.add(
                 Node(
-                    getString(
-                        R.string.two_words_without_separating,
-                        getString(R.string.consumer_b),
-                        (consumers + 1).toString()
+                    NodeData(
+                        getString(
+                            R.string.two_words_without_separating,
+                            getString(R.string.consumer_b),
+                            (consumers + 1).toString()
+                        ),
+                        false,
+                        getColumn(result, consumers) as Array<Shipment>
                     )
                 )
             )
         }
 
-
-//        var totalCosts = 0.0
-
         for (row in 0 until listOfSuppliers.size) {
             for (column in 0 until listOfConsumers.size) {
                 val shipment = result[row][column]
                 if (shipment != TransportationProblem.ZERO && shipment.row == row && shipment.column == column) {
-//                    totalCosts += shipment.quantity * shipment.costPerUnit
                     resultGraph.addEdge(listOfSuppliers[row], listOfConsumers[column])
                 }
             }

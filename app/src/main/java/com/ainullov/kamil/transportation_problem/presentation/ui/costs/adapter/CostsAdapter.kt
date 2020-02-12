@@ -24,6 +24,7 @@ class CostsAdapter(
     override fun onBindViewHolder(holder: CostViewHolder, position: Int) {
         holder.bind(
             position = position,
+            cost = list[position],
             onClickListener = onClickListener,
             onLongClickListener = onLongClickListener,
             onItemCostChangeListener = onItemCostChangeListener

@@ -11,6 +11,7 @@ class CostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     fun bind(
         position: Int,
+        cost: Int,
         onClickListener: (Int) -> Unit,
         onLongClickListener: (Int) -> Unit,
         onItemCostChangeListener: (Int, Int) -> Unit
@@ -18,6 +19,7 @@ class CostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val demands = TransportationProblemSingleton.transportationProblemData.demand
         itemView.editText.hint =
             "C[${position / demands.size + 1}][${position - position / demands.size * demands.size + 1}]"
+        itemView.editText.setText(cost.toString())
 
         itemView.editText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {

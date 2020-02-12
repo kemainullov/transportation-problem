@@ -42,5 +42,9 @@
     <string name="vogels_approximation_method">Vogel’s approximation method</string>
     <string name="northwest_corner_method">Northwest corner method</string>
     <string name="solve">Solve</string>
+    <string name="minimum_costs">Minimum costs</string>
+
+    <string name="transports_colon">transports:</string>
+    <string name="expects_colon">expects:</string>
 
 </resources>

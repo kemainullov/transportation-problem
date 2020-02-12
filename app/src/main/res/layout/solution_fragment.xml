@@ -29,6 +29,7 @@
 
         <androidx.appcompat.widget.AppCompatRadioButton
             android:id="@+id/mb_northwest_corner"
+            android:checked="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -73,26 +74,57 @@
 
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/tv_minimum_costs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:textSize="20sp"
+            android:visibility="gone"
+            android:textColor="@color/defaultTextColor"
+            tools:text="Минимальные затраты: 200"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_solve" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_result"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_solve">
+            app:layout_constraintTop_toBottomOf="@+id/tv_minimum_costs">
 
             <de.blox.graphview.GraphView
                 android:id="@+id/gv_graph"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                app:maxZoom="20">
+
             </de.blox.graphview.GraphView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/tv_solution_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:textColor="@color/defaultTextColor"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cl_result"
+            tools:text="Детальная информация о задаче..." />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

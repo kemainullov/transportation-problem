@@ -22,7 +22,6 @@ class GraphAdapter(
 //        (viewHolder as GraphViewHolder).textView.setText(attr.data.toString())
         viewHolder.bind(graph = graphForAdapter,
             position = position,
-            text = graphForAdapter.getNode(position).data.toString(), //сделать
             onClickListener = onClickListener,
             onLongClickListener = onLongClickListener)
     }
