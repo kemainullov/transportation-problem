@@ -10,6 +10,7 @@ import com.ainullov.kamil.transportation_problem.data.models.ProblemSolutionMode
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 
-    abstract val transportationProblemDao: TransportationProblemDao
+//    abstract val transportationProblemDao: TransportationProblemDao
+    abstract fun transportationProblemDao() : TransportationProblemDao
 
 }

@@ -1,13 +1,9 @@
 package com.ainullov.kamil.transportation_problem.presentation.ui.costs
 
 import android.os.Bundle
-import android.util.Log
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.GridLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
@@ -15,7 +11,6 @@ import com.ainullov.kamil.transportation_problem.R
 import com.ainullov.kamil.transportation_problem.presentation.ui.costs.adapter.CostsAdapter
 import com.ainullov.kamil.transportation_problem.utils.singletons.TransportationProblemSingleton
 import kotlinx.android.synthetic.main.costs_fragment.*
-import java.lang.Exception
 
 
 class CostsFragment : Fragment() {
@@ -66,15 +61,7 @@ class CostsFragment : Fragment() {
                 }
             }
             TransportationProblemSingleton.transportationProblemData.costs = costs
-            printMatrix(costs)
         }
-    }
-
-    fun printMatrix(costs: Array<DoubleArray>) {
-        for (i in costs)
-            for (j in i)
-                print("${j.toString()} ")
-        println()
     }
 
     private fun initCostsRecycler() {
@@ -104,9 +91,6 @@ class CostsFragment : Fragment() {
         suppliers = TransportationProblemSingleton.transportationProblemData.supply
         consumers = TransportationProblemSingleton.transportationProblemData.demand
         initCostsRecycler()
-//        rv_costs.layoutManager =
-//            GridLayoutManager(activity, if (consumers.size != 0) consumers.size else 1)
-//        costsAdapter.updateData(MutableList<Int>(consumers.size * suppliers.size) { 0 })
     }
 
     private fun fillMatrix() {
@@ -119,8 +103,6 @@ class CostsFragment : Fragment() {
                     }
                 }
                 costsAdapter.updateData(list)
-                printMatrix(TransportationProblemSingleton.transportationProblemData.costs)
-
             }
         }
     }

@@ -50,5 +50,6 @@
 
     <string name="transports_colon">перевозит:</string>
     <string name="expects_colon">ожидает:</string>
+    <string name="delete_all">Удалить все</string>
 
 </resources>

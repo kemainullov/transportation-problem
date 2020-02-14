@@ -8,7 +8,7 @@ import com.ainullov.kamil.transportation_problem.domain.entities.TransportationP
 
 @Entity(tableName = "Solution")
 data class ProblemSolutionModel(
-    @PrimaryKey val id: Long,
+    @PrimaryKey(autoGenerate = true) val id: Long,
     var transportationProblemData: TransportationProblemData,
     var minimumCosts: Int,
     var matrix: Array<Array<Shipment>>

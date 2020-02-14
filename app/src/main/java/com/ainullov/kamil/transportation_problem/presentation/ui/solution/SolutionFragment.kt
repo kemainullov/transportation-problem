@@ -5,11 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import com.ainullov.kamil.transportation_problem.R
 import com.ainullov.kamil.transportation_problem.domain.entities.NodeData
-import com.ainullov.kamil.transportation_problem.domain.entities.Shipment
 import com.ainullov.kamil.transportation_problem.domain.entities.ProblemSolution
+import com.ainullov.kamil.transportation_problem.domain.entities.Shipment
 import com.ainullov.kamil.transportation_problem.presentation.ui.solution.graph.GraphAdapter
 import com.ainullov.kamil.transportation_problem.transportation_problem.TransportationProblem
 import com.ainullov.kamil.transportation_problem.utils.Const
@@ -20,6 +19,7 @@ import de.blox.graphview.Graph
 import de.blox.graphview.Node
 import de.blox.graphview.energy.FruchtermanReingoldAlgorithm
 import kotlinx.android.synthetic.main.solution_fragment.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class SolutionFragment : Fragment() {
@@ -28,7 +28,7 @@ class SolutionFragment : Fragment() {
         fun newInstance() = SolutionFragment()
     }
 
-    private lateinit var viewModel: SolutionViewModel
+    private val viewModel: SolutionViewModel by viewModel<SolutionViewModel>()
     private var method = Const.ReferencePlanMethods.NORTHWEST_CORNER
     private lateinit var problemSolution: ProblemSolution
 
@@ -41,7 +41,6 @@ class SolutionFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(SolutionViewModel::class.java)
         initCheckBoxChangeListener()
         setOnClickListeners()
         initGraphAdapter()

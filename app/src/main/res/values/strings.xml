@@ -50,5 +50,6 @@
 
     <string name="transports_colon">transports:</string>
     <string name="expects_colon">expects:</string>
+    <string name="delete_all">Delete all</string>
 
 </resources>

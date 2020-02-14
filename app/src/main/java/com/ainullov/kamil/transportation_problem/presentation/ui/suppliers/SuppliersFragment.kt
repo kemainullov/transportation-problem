@@ -12,9 +12,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ainullov.kamil.transportation_problem.R
 import com.ainullov.kamil.transportation_problem.presentation.ui.suppliers.adapter.SuppliersAdapter
 import com.ainullov.kamil.transportation_problem.utils.adapter.ItemTouchHelperCallback
+import com.ainullov.kamil.transportation_problem.utils.adapter.OnStartDragListener
 import com.ainullov.kamil.transportation_problem.utils.dialogs.EditTextWithTwoButtonsAndTextViewDialog
 import com.ainullov.kamil.transportation_problem.utils.dialogs.OnDialogResultListener
-import com.ainullov.kamil.transportation_problem.utils.adapter.OnStartDragListener
 import com.ainullov.kamil.transportation_problem.utils.singletons.TransportationProblemSingleton
 import kotlinx.android.synthetic.main.suppliers_fragment.*
 
@@ -46,7 +46,17 @@ class SuppliersFragment : Fragment(), OnDialogResultListener,
 
     override fun onPause() {
         super.onPause()
-        TransportationProblemSingleton.transportationProblemData.supply = suppliersAdapter.list.toIntArray()
+        TransportationProblemSingleton.transportationProblemData.supply =
+            suppliersAdapter.list.toIntArray()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (!TransportationProblemSingleton.transportationProblemData.supply.contentEquals(
+                suppliersAdapter.list.toIntArray()
+            )
+        )
+            initSuppliersRecycler()
     }
 
     private fun initSuppliersRecycler() {
@@ -61,8 +71,13 @@ class SuppliersFragment : Fragment(), OnDialogResultListener,
             onDeleteClickListener = { position ->
                 onSupplyItemDeleteClick(position)
             },
-            onStartDragListener = this)
-        val callback: ItemTouchHelper.Callback = ItemTouchHelperCallback(suppliersAdapter)
+            onStartDragListener = this
+        )
+        val callback: ItemTouchHelper.Callback = ItemTouchHelperCallback(
+            suppliersAdapter,
+            isLongPressDragEnabled = true,
+            isItemViewSwipeEnabled = true
+        )
         touchHelper = ItemTouchHelper(callback)
         touchHelper.attachToRecyclerView(rv_suppliers)
 
