@@ -56,7 +56,7 @@ class SuppliersFragment : Fragment(), OnDialogResultListener,
                 suppliersAdapter.list.toIntArray()
             )
         )
-            initSuppliersRecycler()
+            suppliersAdapter.updateData(TransportationProblemSingleton.transportationProblemData.supply.toMutableList())
     }
 
     private fun initSuppliersRecycler() {

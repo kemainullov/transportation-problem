@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/transparent_history"
     tools:context=".presentation.ui.history.HistoryActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -91,6 +92,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_history"
+        android:clipToPadding="true"
+        android:paddingTop="8dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"

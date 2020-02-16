@@ -2,6 +2,7 @@
 <resources>
     //placeholders
     <string name="two_words_separated_by_colon">%1$s: %2$s</string>
+    <string name="two_words_separated_by_equals_sign_and_ending_with_colon">%1$s = %2$s:</string>
     <string name="two_words_separated_by_comma">%1$s, %2$s</string>
     <string name="two_words_separated_by_space">%1$s %2$s</string>
     <string name="two_words_without_separating">%1$s%2$s</string>
@@ -51,5 +52,8 @@
     <string name="transports_colon">перевозит:</string>
     <string name="expects_colon">ожидает:</string>
     <string name="delete_all">Удалить все</string>
+
+    <string name="suppliers_quantity">Количество поставщиков</string>
+    <string name="consumers_quantity">Количество потребителей</string>
 
 </resources>

@@ -54,7 +54,7 @@ class ConsumersFragment : Fragment(), OnDialogResultListener, OnStartDragListene
                 consumersAdapter.list.toIntArray()
             )
         )
-            initConsumersRecycler()
+            consumersAdapter.updateData(TransportationProblemSingleton.transportationProblemData.demand.toMutableList())
     }
 
     private fun initConsumersRecycler() {

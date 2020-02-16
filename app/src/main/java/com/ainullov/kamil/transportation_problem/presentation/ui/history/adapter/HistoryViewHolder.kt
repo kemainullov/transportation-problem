@@ -2,38 +2,42 @@ package com.ainullov.kamil.transportation_problem.presentation.ui.history.adapte
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.ainullov.kamil.transportation_problem.utils.adapter.OnStartDragListener
+import com.ainullov.kamil.transportation_problem.R
+import com.ainullov.kamil.transportation_problem.domain.entities.ProblemSolution
+import kotlinx.android.synthetic.main.item_history.view.*
 
 class HistoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     fun bind(
-        position: Int,
-        quantity: Int,
-        onClickListener: (Int) -> Unit,
-        onLongClickListener: (Int) -> Unit,
-        onDeleteClickListener: (Int) -> Unit,
-        onStartDragListener: OnStartDragListener
+        problemSolution: ProblemSolution,
+        onClickListener: (ProblemSolution) -> Unit,
+        onLongClickListener: (ProblemSolution) -> Unit,
+        onDeleteClickListener: (ProblemSolution) -> Unit
     ) {
-//        itemView.tv_consumer.text = itemView.context.resources.getString(
-//            R.string.two_words_without_separating,
-//            itemView.context.resources.getString(R.string.consumer_b),
-//            (position + 1).toString()
-//        )
-//        itemView.tv_demand.text = itemView.context.resources.getString(
-//            R.string.two_words_separated_by_colon,
-//            itemView.context.resources.getString(R.string.demand),
-//            quantity.toString()
-//        )
-//        itemView.iv_delete.setOnClickListener { onDeleteClickListener(position) }
-//        itemView.iv_drag.setOnTouchListener { _, event ->
-//            if (event.action == MotionEvent.ACTION_DOWN)
-//                onStartDragListener.onStartDrag(this)
-//            return@setOnTouchListener true
-//        }
+        itemView.tv_suppliers_quantity.text = itemView.context.resources.getString(
+            R.string.two_words_separated_by_equals_sign_and_ending_with_colon,
+            itemView.context.resources.getString(R.string.suppliers_quantity),
+            problemSolution.transportationProblemData.costs.size.toString()
+        )
+        itemView.tv_suppliers_data.text =
+            problemSolution.transportationProblemData.supply.toString()
+        itemView.tv_consumers_quantity.text = itemView.context.resources.getString(
+            R.string.two_words_separated_by_equals_sign_and_ending_with_colon,
+            itemView.context.resources.getString(R.string.consumers_quantity),
+            problemSolution.transportationProblemData.demand.size.toString()
+        )
+        itemView.tv_consumers_data.text =
+            problemSolution.transportationProblemData.demand.toString()
+        itemView.tv_minimum_costs.text = itemView.context.resources.getString(
+            R.string.two_words_separated_by_colon,
+            itemView.context.resources.getString(R.string.minimum_costs),
+            problemSolution.minimumCosts.toString()
+        )
 
-        itemView.setOnClickListener { onClickListener(quantity) }
-        itemView.setOnLongClickListener {
-            onLongClickListener(quantity)
+        itemView.iv_delete.setOnClickListener { onDeleteClickListener(problemSolution) }
+        itemView.cl_content.setOnClickListener { onClickListener(problemSolution) }
+        itemView.cl_content.setOnLongClickListener {
+            onLongClickListener(problemSolution)
             true
         }
     }

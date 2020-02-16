@@ -11,7 +11,7 @@ interface TransportationProblemDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(problemSolution: ProblemSolutionModel)
 
-    @Query("SELECT * FROM Solution")
+    @Query("SELECT * FROM Solution ORDER BY id DESC")
     fun loadAll(): Flowable<List<ProblemSolutionModel>>
 
     @Delete

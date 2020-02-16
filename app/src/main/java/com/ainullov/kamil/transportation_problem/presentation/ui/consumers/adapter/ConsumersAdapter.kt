@@ -38,6 +38,7 @@ class ConsumersAdapter(
 
     fun updateData(list: MutableList<Int>) {
         this.list = list
+        notifyDataSetChanged()
     }
 
     override fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {

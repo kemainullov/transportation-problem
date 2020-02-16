@@ -1,10 +1,12 @@
 package com.ainullov.kamil.transportation_problem.presentation.ui.main
 
-import androidx.appcompat.app.AppCompatActivity
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
 import android.view.MenuItem
 import android.widget.PopupMenu
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
@@ -12,9 +14,11 @@ import com.ainullov.kamil.transportation_problem.R
 import com.ainullov.kamil.transportation_problem.presentation.base.App
 import com.ainullov.kamil.transportation_problem.presentation.ui.consumers.ConsumersFragment
 import com.ainullov.kamil.transportation_problem.presentation.ui.costs.CostsFragment
+import com.ainullov.kamil.transportation_problem.presentation.ui.history.HistoryActivity
 import com.ainullov.kamil.transportation_problem.presentation.ui.main.pager_adapter.MainPagerAdapter
 import com.ainullov.kamil.transportation_problem.presentation.ui.solution.SolutionFragment
 import com.ainullov.kamil.transportation_problem.presentation.ui.suppliers.SuppliersFragment
+import com.ainullov.kamil.transportation_problem.utils.Const
 import com.ainullov.kamil.transportation_problem.utils.singletons.TransportationProblemSingleton
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -25,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         const val CONSUMERS_FRAGMENT = 1
         const val COSTS_FRAGMENT = 2
         const val SOLUTION_FRAGMENT = 3
+        const val HISTORY_ACTIVITY = 4
     }
 
     private lateinit var viewModel: MainActivityViewModel
@@ -42,11 +47,17 @@ class MainActivity : AppCompatActivity() {
         initViewPager()
         initBottomBarListener()
         setOnClickListeners()
+        lifecycle.addObserver(viewModel)
     }
 
     override fun onPause() {
         super.onPause()
-        App.transportationProblemSharedPreferences.setTransportationProblemData(TransportationProblemSingleton.transportationProblemData)
+        App.transportationProblemSharedPreferences.setTransportationProblemData(
+            TransportationProblemSingleton.transportationProblemData
+        )
+        App.transportationProblemSharedPreferences.setCurrentSolutionId(
+            TransportationProblemSingleton.problemSolutionId
+        )
     }
 
     private fun setOnClickListeners() {
@@ -59,6 +70,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onArchiveClicked() {
+        startActivityForResult(HistoryActivity.newIntent(this), HISTORY_ACTIVITY)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == HISTORY_ACTIVITY) {
+            main_content.setCurrentItem(SOLUTION_FRAGMENT, false)
+            solutionFragment.onProblemSolutionChanged(
+                data?.getLongExtra(
+                    Const.Extras.SOLUTION_ID,
+                    TransportationProblemSingleton.problemSolutionId
+                ) ?: TransportationProblemSingleton.problemSolutionId
+            )
+        }
     }
 
     private fun onMoreClicked() {

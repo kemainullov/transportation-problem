@@ -14,7 +14,6 @@ class App : Application() {
         startKoin(
             this,
             listOf(
-                appModule,
                 dbModule,
                 interactorModule,
                 mapperModule,

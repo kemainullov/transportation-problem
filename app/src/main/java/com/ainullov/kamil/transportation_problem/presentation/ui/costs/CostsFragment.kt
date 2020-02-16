@@ -21,8 +21,9 @@ class CostsFragment : Fragment() {
 
     private lateinit var viewModel: CostsViewModel
     private lateinit var costsAdapter: CostsAdapter
-    lateinit var consumers: IntArray
-    lateinit var suppliers: IntArray
+    private lateinit var consumers: IntArray
+    private lateinit var suppliers: IntArray
+    private lateinit var costs: Array<DoubleArray>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,6 +37,7 @@ class CostsFragment : Fragment() {
         viewModel = ViewModelProviders.of(this).get(CostsViewModel::class.java)
         consumers = TransportationProblemSingleton.transportationProblemData.demand
         suppliers = TransportationProblemSingleton.transportationProblemData.supply
+        costs = TransportationProblemSingleton.transportationProblemData.costs
         initCostsRecycler()
         fillMatrix()
     }
@@ -47,22 +49,9 @@ class CostsFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
-        saveCostsMatrix()
+        viewModel.saveCostsMatrix(suppliers, consumers, costsAdapter.list)
     }
 
-    private fun saveCostsMatrix() {
-        if (suppliers.isNotEmpty() && consumers.isNotEmpty()) {
-            val costs: Array<DoubleArray> = Array(suppliers.size) { DoubleArray(consumers.size) }
-            var counter = 0
-            for (i in 0 until suppliers.size) {
-                for (j in 0 until consumers.size) {
-                    costs[i][j] = costsAdapter.list[counter].toDouble()
-                    counter++
-                }
-            }
-            TransportationProblemSingleton.transportationProblemData.costs = costs
-        }
-    }
 
     private fun initCostsRecycler() {
         costsAdapter = CostsAdapter(
@@ -82,26 +71,30 @@ class CostsFragment : Fragment() {
 
     private fun checkSituation() {
         if (suppliers.size != TransportationProblemSingleton.transportationProblemData.supply.size || consumers.size != TransportationProblemSingleton.transportationProblemData.demand.size) {
-            if (TransportationProblemSingleton.transportationProblemData.supply.isNotEmpty() && TransportationProblemSingleton.transportationProblemData.demand.isNotEmpty())
+            if (TransportationProblemSingleton.transportationProblemData.supply.isNotEmpty() && TransportationProblemSingleton.transportationProblemData.demand.isNotEmpty()) {
                 loadMatrix()
+                fillMatrix()
+            }
         }
     }
 
     private fun loadMatrix() {
         suppliers = TransportationProblemSingleton.transportationProblemData.supply
         consumers = TransportationProblemSingleton.transportationProblemData.demand
+        costs = TransportationProblemSingleton.transportationProblemData.costs
         initCostsRecycler()
     }
 
     private fun fillMatrix() {
         if (suppliers.size == TransportationProblemSingleton.transportationProblemData.supply.size && consumers.size == TransportationProblemSingleton.transportationProblemData.demand.size) {
-            if (TransportationProblemSingleton.transportationProblemData.costs.isNotEmpty()) {
+            if (TransportationProblemSingleton.transportationProblemData.costs.isNotEmpty() && costs.contentEquals(
+                    TransportationProblemSingleton.transportationProblemData.costs
+                )
+            ) {
                 val list = mutableListOf<Int>()
-                for (i in TransportationProblemSingleton.transportationProblemData.costs) {
-                    for (j in i) {
+                for (i in TransportationProblemSingleton.transportationProblemData.costs)
+                    for (j in i)
                         list.add(j.toInt())
-                    }
-                }
                 costsAdapter.updateData(list)
             }
         }

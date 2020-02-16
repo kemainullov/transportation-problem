@@ -2,18 +2,17 @@ package com.ainullov.kamil.transportation_problem.presentation.ui.history.adapte
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ainullov.kamil.transportation_problem.R
+import com.ainullov.kamil.transportation_problem.domain.entities.ProblemSolution
 import com.ainullov.kamil.transportation_problem.utils.adapter.ItemTouchHelperAdapter
-import com.ainullov.kamil.transportation_problem.utils.adapter.OnStartDragListener
-import java.util.*
 
 class HistoryAdapter(
-    var list: MutableList<Int>,
-    private val onClickListener: (Int) -> Unit,
-    private val onLongClickListener: (Int) -> Unit,
-    private val onDeleteClickListener: (Int) -> Unit,
-    private val onStartDragListener: OnStartDragListener
+    var list: MutableList<ProblemSolution>,
+    private val onClickListener: (ProblemSolution) -> Unit,
+    private val onLongClickListener: (ProblemSolution) -> Unit,
+    private val onDeleteClickListener: (ProblemSolution) -> Unit
 ) : RecyclerView.Adapter<HistoryViewHolder>(), ItemTouchHelperAdapter {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {
@@ -27,34 +26,25 @@ class HistoryAdapter(
 
     override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
         holder.bind(
-            position = position,
-            quantity = list[position],
+            problemSolution = list[position],
             onClickListener = onClickListener,
             onLongClickListener = onLongClickListener,
-            onDeleteClickListener = onDeleteClickListener,
-            onStartDragListener = onStartDragListener
+            onDeleteClickListener = onDeleteClickListener
         )
     }
 
-    fun updateData(list: MutableList<Int>) {
+    fun updateData(list: MutableList<ProblemSolution>) {
+        val diffResult = DiffUtil.calculateDiff(HistoryDiffUtilCallback(this.list, list))
+        diffResult.dispatchUpdatesTo(this)
         this.list = list
     }
 
     override fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
-        if (fromPosition < toPosition)
-            for (i in fromPosition until toPosition)
-                Collections.swap(list, i, i + 1)
-        else
-            for (i in fromPosition downTo toPosition + 1)
-                Collections.swap(list, i, i - 1)
-
-        notifyItemMoved(fromPosition, toPosition)
         return true
     }
 
     override fun onItemDismiss(position: Int) {
-        list.removeAt(position)
-        notifyDataSetChanged()
+        onDeleteClickListener(list[position])
     }
 
     override fun onItemSelected(viewHolder: RecyclerView.ViewHolder?) {

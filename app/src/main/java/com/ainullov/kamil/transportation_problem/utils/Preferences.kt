@@ -93,6 +93,16 @@ class Preferences(context: Context) {
         setCustomArrayOfDoubleArrays(Const.PrefKeys.COSTS, transportationProblemData.costs)
     }
 
+    fun setCurrentSolutionId(value: Long) {
+        val editor: SharedPreferences.Editor = sharedPreferences.edit()
+        editor.putLong(Const.PrefKeys.PROBLEM_SOLUTION_ID, value)
+        editor.apply()
+    }
+
+    fun removeCurrentSolutionId() {
+        removePref(Const.PrefKeys.PROBLEM_SOLUTION_ID)
+    }
+
     fun removeTransportationProblemData() {
         removePref(Const.PrefKeys.SUPPLY)
         removePref(Const.PrefKeys.DEMAND)

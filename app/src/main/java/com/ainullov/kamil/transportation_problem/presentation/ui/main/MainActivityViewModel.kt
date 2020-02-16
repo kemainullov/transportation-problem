@@ -1,6 +1,5 @@
 package com.ainullov.kamil.transportation_problem.presentation.ui.main
 
-import androidx.lifecycle.ViewModel
+import com.ainullov.kamil.transportation_problem.presentation.base.BaseViewModel
 
-class MainActivityViewModel : ViewModel() {
-}
+class MainActivityViewModel : BaseViewModel()

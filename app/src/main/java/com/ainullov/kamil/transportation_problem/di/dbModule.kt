@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.room.Room
 import com.ainullov.kamil.transportation_problem.data.db.AppDatabase
 import com.ainullov.kamil.transportation_problem.data.db.dao.TransportationProblemDao
+import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module.module
 
 val dbModule = module {
@@ -22,7 +23,7 @@ val dbModule = module {
     fun provideDao(database: AppDatabase): TransportationProblemDao =
         database.transportationProblemDao()
 
-//    single { provideDatabase(androidApplication()) }
-    single { provideDatabase(get()) }
+    single { provideDatabase(androidApplication()) }
+//    single { provideDatabase(get()) }
     single { provideDao(get()) }
 }

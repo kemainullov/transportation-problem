@@ -87,6 +87,7 @@ class TransportationProblem(
             var plus = true
             for (shipment in move) {
                 shipment.quantity += if (plus) quantity else -quantity
+                println(shipment.quantity.toString())
                 matrix[shipment.row][shipment.column] =
                     if (shipment.quantity == 0.0) ZERO else shipment
                 plus = !plus
@@ -149,12 +150,13 @@ class TransportationProblem(
     }
 
     private fun printResult() {
-
         for (row in 0 until supply.size) {
             for (column in 0 until demand.size) {
                 val shipment = matrix[row][column]
                 if (shipment != ZERO && shipment.row == row && shipment.column == column) {
                     print(" %3s ".format(shipment.quantity.toInt()))
+                    if(shipment.quantity.toInt() == 0)
+                        matrix[row][column] = ZERO
                     totalCosts += shipment.quantity * shipment.costPerUnit
                 } else print("  -  ")
             }

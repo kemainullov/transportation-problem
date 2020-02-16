@@ -9,7 +9,7 @@ import com.ainullov.kamil.transportation_problem.transportation_problem.Transpor
 import java.lang.StringBuilder
 
 fun getColumn(array: Array<Array<Shipment>>, index: Int): Array<Shipment?> {
-    val column = arrayOfNulls<Shipment>(array[0].size) // or size -1?
+    val column = arrayOfNulls<Shipment>(array[0].size - 1) // or size -1?
     for (i in column.indices) {
         column[i] = array[i][index]
     }
