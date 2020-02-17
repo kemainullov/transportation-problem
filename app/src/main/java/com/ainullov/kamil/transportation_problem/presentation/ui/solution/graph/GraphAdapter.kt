@@ -14,7 +14,7 @@ class GraphAdapter(
     private val onClickListener: () -> Unit,
     private val onLongClickListener: () -> Unit): BaseGraphAdapter<GraphViewHolder>(graph) {
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): GraphViewHolder {
-        val view: View = LayoutInflater.from(parent!!.context).inflate(R.layout.item_node, parent, false)
+        val view: View = LayoutInflater.from(parent?.context).inflate(R.layout.item_node, parent, false)
         return GraphViewHolder(view)
     }
 

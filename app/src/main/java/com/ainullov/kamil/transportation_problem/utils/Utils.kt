@@ -12,7 +12,12 @@ import com.ainullov.kamil.transportation_problem.domain.entities.Shipment
 import com.ainullov.kamil.transportation_problem.transportation_problem.TransportationProblem
 
 fun getColumn(array: Array<Array<Shipment>>, index: Int): Array<Shipment> {
-    val column = arrayOfNulls<Shipment>(array[0].size - 1) // or size -1?
+    val column =
+        try {
+            arrayOfNulls<Shipment>(array[0].size)
+        } catch (e: Exception) {
+            arrayOfNulls<Shipment>(array[0].size - 1)
+        }
     for (i in column.indices) {
         column[i] = array[i][index]
     }
