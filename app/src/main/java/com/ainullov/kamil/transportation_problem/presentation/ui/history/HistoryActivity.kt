@@ -94,12 +94,18 @@ class HistoryActivity : AppCompatActivity() {
     }
 
     private fun onHistoryItemClick(problemSolution: ProblemSolution) {
-        setResult(Activity.RESULT_OK, Intent().putExtra(Const.Extras.SOLUTION_ID, problemSolution.id))
+        setResult(
+            Activity.RESULT_OK,
+            Intent().putExtra(Const.Extras.SOLUTION_ID, problemSolution.id)
+        )
         finish()
     }
 
     private fun onHistoryItemLongClick(problemSolution: ProblemSolution) {
-        setResult(Activity.RESULT_OK, Intent().putExtra(Const.Extras.SOLUTION_ID, problemSolution.id))
+        setResult(
+            Activity.RESULT_OK,
+            Intent().putExtra(Const.Extras.SOLUTION_ID, problemSolution.id)
+        )
         finish()
     }
 
@@ -110,9 +116,7 @@ class HistoryActivity : AppCompatActivity() {
     }
 
     private fun setOnClickListeners() {
-        ib_back.setOnClickListener {
-            onBackPressed()
-        }
+        ib_back.setOnClickListener { onBackPressed() }
         ll_delete_all.setOnClickListener {
             viewModel.deleteAll()
             historyAdapter.updateData(mutableListOf())

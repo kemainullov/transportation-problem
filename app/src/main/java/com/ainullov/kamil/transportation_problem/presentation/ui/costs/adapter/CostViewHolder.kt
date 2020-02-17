@@ -17,6 +17,7 @@ class CostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         onItemCostChangeListener: (Int, Int) -> Unit
     ) {
         val demands = TransportationProblemSingleton.transportationProblemData.demand
+        if(demands.isNotEmpty())
         itemView.editText.hint =
             "C[${position / demands.size + 1}][${position - position / demands.size * demands.size + 1}]"
         itemView.editText.setText(if (cost != 0) cost.toString() else "")

@@ -25,6 +25,7 @@
     <string name="solution">Решение</string>
     <string name="archive">Архив</string>
     <string name="about_app">О приложении</string>
+    <string name="reset_task_conditions">Сбросить условия задачи</string>
     <string name="exit">Выйти</string>
     <string name="field_must_not_be_empty">Поле не должно быть пустым</string>
 

@@ -46,16 +46,15 @@ class SuppliersFragment : Fragment(), OnDialogResultListener,
 
     override fun onPause() {
         super.onPause()
-        TransportationProblemSingleton.transportationProblemData.supply =
-            suppliersAdapter.list.toIntArray()
+        if (!TransportationProblemSingleton.transportationProblemData.supply.contentEquals(suppliersAdapter.list.toIntArray())) {
+            TransportationProblemSingleton.transportationProblemData.supply = suppliersAdapter.list.toIntArray()
+            TransportationProblemSingleton.transportationProblemData.costs = arrayOf(doubleArrayOf())
+        }
     }
 
     override fun onResume() {
         super.onResume()
-        if (!TransportationProblemSingleton.transportationProblemData.supply.contentEquals(
-                suppliersAdapter.list.toIntArray()
-            )
-        )
+        if (!TransportationProblemSingleton.transportationProblemData.supply.contentEquals(suppliersAdapter.list.toIntArray()))
             suppliersAdapter.updateData(TransportationProblemSingleton.transportationProblemData.supply.toMutableList())
     }
 
@@ -80,7 +79,6 @@ class SuppliersFragment : Fragment(), OnDialogResultListener,
         )
         touchHelper = ItemTouchHelper(callback)
         touchHelper.attachToRecyclerView(rv_suppliers)
-
         rv_suppliers.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         rv_suppliers.adapter = suppliersAdapter
@@ -90,11 +88,9 @@ class SuppliersFragment : Fragment(), OnDialogResultListener,
         touchHelper.startDrag(viewHolder)
     }
 
-    private fun onSupplyItemClick(quantity: Int) {
-    }
+    private fun onSupplyItemClick(quantity: Int) {}
 
-    private fun onSupplyItemLongClick(quantity: Int) {
-    }
+    private fun onSupplyItemLongClick(quantity: Int) {}
 
     private fun onSupplyItemDeleteClick(position: Int) {
         suppliersAdapter.list.removeAt(position)
@@ -125,5 +121,4 @@ class SuppliersFragment : Fragment(), OnDialogResultListener,
         suppliersAdapter.list.add(result)
         suppliersAdapter.notifyDataSetChanged()
     }
-
 }

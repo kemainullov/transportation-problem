@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
-import android.view.MenuItem
 import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -30,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         const val COSTS_FRAGMENT = 2
         const val SOLUTION_FRAGMENT = 3
         const val HISTORY_ACTIVITY = 4
+        const val NULL = Int.MAX_VALUE
     }
 
     private lateinit var viewModel: MainActivityViewModel
@@ -61,17 +61,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setOnClickListeners() {
-        ib_more.setOnClickListener {
-            onMoreClicked()
-        }
-        ll_archive.setOnClickListener {
-            onArchiveClicked()
-        }
+        ib_more.setOnClickListener { onMoreClicked() }
+        ll_archive.setOnClickListener { onArchiveClicked() }
     }
 
-    private fun onArchiveClicked() {
+    private fun onArchiveClicked() =
         startActivityForResult(HistoryActivity.newIntent(this), HISTORY_ACTIVITY)
-    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -91,22 +86,30 @@ class MainActivity : AppCompatActivity() {
         popup.gravity = Gravity.END
         val inflater = popup.menuInflater
         inflater.inflate(R.menu.main_activity_more_menu, popup.menu)
-        popup.setOnMenuItemClickListener(object : PopupMenu.OnMenuItemClickListener {
-            override fun onMenuItemClick(item: MenuItem): Boolean {
-                when (item.itemId) {
-                    R.id.about -> {
-//                        startActivity(AboutAppActivity.newIntent(applicationContext)) //this@MainActivity
-                        return true
-                    }
-                    R.id.exit -> {
-                        finish() // TODO
-                        return true
-                    }
-                    else -> return false
+        popup.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
+                R.id.reset_task_conditions -> {
+                    resetTaskConditions()
+                    true
                 }
+                R.id.about -> {
+                    //                        startActivity(AboutAppActivity.newIntent(applicationContext)) //this@MainActivity
+                    true
+                }
+                R.id.exit -> {
+                    finish() // TODO
+                    true
+                }
+                else -> false
             }
-        })
+        }
         popup.show()
+    }
+
+    private fun resetTaskConditions() {
+        main_content.setCurrentItem(NULL, false)
+        TransportationProblemSingleton.removeTransportationProblemSingletonData()
+        main_content.setCurrentItem(SUPPLIERS_FRAGMENT, false)
     }
 
     private fun initBottomBarListener() {
@@ -117,12 +120,6 @@ class MainActivity : AppCompatActivity() {
                 R.id.item_costs -> main_content.setCurrentItem(COSTS_FRAGMENT, false)
                 R.id.item_solution -> main_content.setCurrentItem(SOLUTION_FRAGMENT, false)
             }
-        }
-
-        bottom_bar.onItemReselectedListener = { view, menuItem ->
-            /**
-             * handle here all the click in already selected items
-             */
         }
     }
 

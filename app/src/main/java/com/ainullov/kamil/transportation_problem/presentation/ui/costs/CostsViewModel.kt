@@ -9,12 +9,11 @@ class CostsViewModel : ViewModel() {
         if (suppliers.isNotEmpty() && consumers.isNotEmpty()) {
             val costs: Array<DoubleArray> = Array(suppliers.size) { DoubleArray(consumers.size) }
             var counter = 0
-            for (i in 0 until suppliers.size) {
-                for (j in 0 until consumers.size) {
+            for (i in suppliers.indices)
+                for (j in consumers.indices) {
                     costs[i][j] = listOfCosts[counter].toDouble()
                     counter++
                 }
-            }
             TransportationProblemSingleton.transportationProblemData.costs = costs
         }
     }

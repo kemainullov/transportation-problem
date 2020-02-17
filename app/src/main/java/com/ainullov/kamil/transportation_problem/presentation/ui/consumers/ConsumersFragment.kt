@@ -44,16 +44,15 @@ class ConsumersFragment : Fragment(), OnDialogResultListener, OnStartDragListene
 
     override fun onPause() {
         super.onPause()
-        TransportationProblemSingleton.transportationProblemData.demand =
-            consumersAdapter.list.toIntArray()
+        if (!TransportationProblemSingleton.transportationProblemData.demand.contentEquals(consumersAdapter.list.toIntArray())) {
+            TransportationProblemSingleton.transportationProblemData.demand = consumersAdapter.list.toIntArray()
+            TransportationProblemSingleton.transportationProblemData.costs = arrayOf(doubleArrayOf())
+        }
     }
 
     override fun onResume() {
         super.onResume()
-        if (!TransportationProblemSingleton.transportationProblemData.demand.contentEquals(
-                consumersAdapter.list.toIntArray()
-            )
-        )
+        if (!TransportationProblemSingleton.transportationProblemData.demand.contentEquals(consumersAdapter.list.toIntArray()))
             consumersAdapter.updateData(TransportationProblemSingleton.transportationProblemData.demand.toMutableList())
     }
 
@@ -79,21 +78,17 @@ class ConsumersFragment : Fragment(), OnDialogResultListener, OnStartDragListene
             )
         touchHelper = ItemTouchHelper(callback)
         touchHelper.attachToRecyclerView(rv_consumers)
-
         rv_consumers.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         rv_consumers.adapter = consumersAdapter
     }
 
-    override fun onStartDrag(viewHolder: RecyclerView.ViewHolder) {
+    override fun onStartDrag(viewHolder: RecyclerView.ViewHolder) =
         touchHelper.startDrag(viewHolder)
-    }
 
-    private fun onConsumerItemClick(quantity: Int) {
-    }
+    private fun onConsumerItemClick(quantity: Int) {}
 
-    private fun onConsumerItemLongClick(quantity: Int) {
-    }
+    private fun onConsumerItemLongClick(quantity: Int) {}
 
     private fun onConsumerItemDeleteClick(position: Int) {
         consumersAdapter.list.removeAt(position)
@@ -124,5 +119,4 @@ class ConsumersFragment : Fragment(), OnDialogResultListener, OnStartDragListene
         consumersAdapter.list.add(result)
         consumersAdapter.notifyDataSetChanged()
     }
-
 }

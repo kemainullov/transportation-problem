@@ -20,14 +20,14 @@ class HistoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             problemSolution.transportationProblemData.costs.size.toString()
         )
         itemView.tv_suppliers_data.text =
-            problemSolution.transportationProblemData.supply.toString()
+            problemSolution.transportationProblemData.supply.contentToString()
         itemView.tv_consumers_quantity.text = itemView.context.resources.getString(
             R.string.two_words_separated_by_equals_sign_and_ending_with_colon,
             itemView.context.resources.getString(R.string.consumers_quantity),
             problemSolution.transportationProblemData.demand.size.toString()
         )
         itemView.tv_consumers_data.text =
-            problemSolution.transportationProblemData.demand.toString()
+            problemSolution.transportationProblemData.demand.contentToString()
         itemView.tv_minimum_costs.text = itemView.context.resources.getString(
             R.string.two_words_separated_by_colon,
             itemView.context.resources.getString(R.string.minimum_costs),

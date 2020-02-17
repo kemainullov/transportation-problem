@@ -1,19 +1,22 @@
 package com.ainullov.kamil.transportation_problem.utils
 
+import android.app.Activity
+import android.content.Context
 import android.content.res.Resources
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import com.ainullov.kamil.transportation_problem.R
 import com.ainullov.kamil.transportation_problem.domain.entities.NodeData
-import com.ainullov.kamil.transportation_problem.domain.entities.Shipment
 import com.ainullov.kamil.transportation_problem.domain.entities.ProblemSolution
+import com.ainullov.kamil.transportation_problem.domain.entities.Shipment
 import com.ainullov.kamil.transportation_problem.transportation_problem.TransportationProblem
-import java.lang.StringBuilder
 
-fun getColumn(array: Array<Array<Shipment>>, index: Int): Array<Shipment?> {
+fun getColumn(array: Array<Array<Shipment>>, index: Int): Array<Shipment> {
     val column = arrayOfNulls<Shipment>(array[0].size - 1) // or size -1?
     for (i in column.indices) {
         column[i] = array[i][index]
     }
-    return column
+    return column as Array<Shipment>
 }
 
 fun getSolutionDescriptionText(problemSolution: ProblemSolution, resources: Resources): String {
@@ -60,5 +63,15 @@ fun generateTextForGraphItem(nodeData: NodeData, resources: Resources): String {
         }
     }
     return stringBuilder.toString()
+}
+
+fun showKeyboard(context: Context) {
+    val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
+}
+
+fun hideKeyboard(context: Context, view: View) {
+    val imm = context.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+    imm.hideSoftInputFromWindow(view.windowToken, 0)
 }
 

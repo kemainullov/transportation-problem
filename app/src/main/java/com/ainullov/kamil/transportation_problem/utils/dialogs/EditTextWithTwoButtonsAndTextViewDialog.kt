@@ -2,10 +2,14 @@ package com.ainullov.kamil.transportation_problem.utils.dialogs
 
 import android.app.Dialog
 import android.os.Bundle
-import android.view.WindowManager.LayoutParams.FLAG_DIM_BEHIND
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.ainullov.kamil.transportation_problem.R
+import com.ainullov.kamil.transportation_problem.utils.hideKeyboard
+import com.ainullov.kamil.transportation_problem.utils.showKeyboard
 import kotlinx.android.synthetic.main.dialog_edittext_with_two_buttons_and_textview.*
 
 class EditTextWithTwoButtonsAndTextViewDialog : DialogFragment() {
@@ -35,12 +39,24 @@ class EditTextWithTwoButtonsAndTextViewDialog : DialogFragment() {
 
     private lateinit var onClickListener: (Int) -> Unit
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        dialog?.window?.setBackgroundDrawableResource(R.drawable.dialog_background_with_corner)
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         activity?.let {
             val dialog = Dialog(it)
             dialog.setContentView(R.layout.dialog_edittext_with_two_buttons_and_textview)
             setOnClickListeners(dialog)
 //            dialog.window?.clearFlags(FLAG_DIM_BEHIND) // убрать фон
+
+            dialog.et_enter.requestFocus()
+            showKeyboard(dialog.context)
 
             dialog.tv_title.text =
                 arguments?.getString("title") ?: resources.getString(R.string.adding)
@@ -60,6 +76,7 @@ class EditTextWithTwoButtonsAndTextViewDialog : DialogFragment() {
             if (dialog.et_enter.text.isNotEmpty()) {
                 (parentFragment as OnDialogResultListener).dialogResultEvent(dialog.et_enter.text.toString().toInt())
                 onClickListener(ACTION_POSITIVE)
+                hideKeyboard(dialog.context, dialog.btn_positive)
                 dismiss()
             } else Toast.makeText(
                 activity,
@@ -70,6 +87,7 @@ class EditTextWithTwoButtonsAndTextViewDialog : DialogFragment() {
         }
         dialog.btn_negative.setOnClickListener {
             onClickListener(ACTION_NEGATIVE)
+            hideKeyboard(dialog.context, dialog.btn_negative)
             dismiss()
         }
     }

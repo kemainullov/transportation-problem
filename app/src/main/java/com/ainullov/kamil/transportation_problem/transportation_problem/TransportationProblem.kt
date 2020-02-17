@@ -1,10 +1,11 @@
 package com.ainullov.kamil.transportation_problem.transportation_problem
 
-import com.ainullov.kamil.transportation_problem.domain.entities.Shipment
 import com.ainullov.kamil.transportation_problem.domain.entities.ProblemSolution
+import com.ainullov.kamil.transportation_problem.domain.entities.Shipment
 import com.ainullov.kamil.transportation_problem.domain.entities.TransportationProblemData
 import com.ainullov.kamil.transportation_problem.utils.Const
-import java.util.LinkedList
+import io.reactivex.Flowable
+import java.util.*
 
 class TransportationProblem(
     private val transportationProblemData: TransportationProblemData
@@ -53,8 +54,8 @@ class TransportationProblem(
         var leaving = ZERO
         fixDegenerateCase()
 
-        for (row in 0 until supply.size) {
-            for (column in 0 until demand.size) {
+        for (row in supply.indices) {
+            for (column in demand.indices) {
                 if (matrix[row][column] != ZERO) continue
                 val trial = Shipment(0.0, balancedCosts[row][column], row, column)
                 val path = getClosedPath(trial)
@@ -111,7 +112,7 @@ class TransportationProblem(
         // place the remaining elements in the correct plus-minus order
         val stones = Array<Shipment>(path.size) { ZERO }
         var prev = shipment
-        for (i in 0 until stones.size) {
+        for (i in stones.indices) {
             stones[i] = prev
             prev = getNeighbors(prev, path)[i % 2]
         }
@@ -135,11 +136,11 @@ class TransportationProblem(
     private fun fixDegenerateCase() {
         val eps = Double.MIN_VALUE
         if (supply.size + demand.size - 1 != matrixToList().size) {
-            for (row in 0 until supply.size) {
-                for (column in 0 until demand.size) {
+            for (row in supply.indices) {
+                for (column in demand.indices) {
                     if (matrix[row][column] == ZERO) {
                         val dummy = Shipment(eps, balancedCosts[row][column], row, column)
-                        if (getClosedPath(dummy).size == 0) {
+                        if (getClosedPath(dummy).isEmpty()) {
                             matrix[row][column] = dummy
                             return
                         }
@@ -150,12 +151,12 @@ class TransportationProblem(
     }
 
     private fun printResult() {
-        for (row in 0 until supply.size) {
-            for (column in 0 until demand.size) {
+        for (row in supply.indices) {
+            for (column in demand.indices) {
                 val shipment = matrix[row][column]
                 if (shipment != ZERO && shipment.row == row && shipment.column == column) {
                     print(" %3s ".format(shipment.quantity.toInt()))
-                    if(shipment.quantity.toInt() == 0)
+                    if (shipment.quantity.toInt() == 0)
                         matrix[row][column] = ZERO
                     totalCosts += shipment.quantity * shipment.costPerUnit
                 } else print("  -  ")
@@ -165,19 +166,22 @@ class TransportationProblem(
         println("\nTotal costs: $totalCosts\n")
     }
 
-    fun execute(method: Int): ProblemSolution {
-        when (method) {
-            Const.ReferencePlanMethods.NORTHWEST_CORNER -> matrix = NorthwestCornerRule(supply, demand, balancedCosts).northWestCornerRule()
-            Const.ReferencePlanMethods.VOGELS_APPROXIMATION -> matrix = VogelApproximation(supply, demand, balancedCosts).vogelApproximation()
+    fun execute(method: Int): Flowable<ProblemSolution> {
+        return Flowable.fromCallable {
+            when (method) {
+                Const.ReferencePlanMethods.NORTHWEST_CORNER -> matrix =
+                    NorthwestCornerRule(supply, demand, balancedCosts).northWestCornerRule()
+                Const.ReferencePlanMethods.VOGELS_APPROXIMATION -> matrix =
+                    VogelApproximation(supply, demand, balancedCosts).vogelApproximation()
+            }
+            potentialMethod()
+            printResult()
+            return@fromCallable ProblemSolution(
+                id = 0,
+                transportationProblemData = transportationProblemData,
+                minimumCosts = totalCosts.toInt(),
+                matrix = matrix
+            )
         }
-        potentialMethod()
-        printResult()
-        return ProblemSolution(
-            id = 0,
-            transportationProblemData = transportationProblemData,
-            minimumCosts = totalCosts.toInt(),
-            matrix = matrix
-
-        )
     }
 }

@@ -14,30 +14,26 @@ class GraphViewHolder(itemView: View) : ViewHolder(itemView) {
     fun bind(
         graph: Graph,
         position: Int,
-        onClickListener: (Int) -> Unit,
-        onLongClickListener: (Int) -> Unit
+        onClickListener: () -> Unit,
+        onLongClickListener: () -> Unit
     ) {
         if (graph.getNode(position).data is NodeData) {
             val nodeData = graph.getNode(position).data as NodeData
-
             itemView.tv_node.text = nodeData.text
             itemView.setOnClickListener {
                 OnClickGraphItemDialog(
                     itemView.context,
-                    "${nodeData.text} ${if (nodeData.isSupplier) itemView.resources.getString(R.string.transports_colon) else itemView.resources.getString(R.string.expects_colon)}\n" +
+                    "${nodeData.text} ${if (nodeData.isSupplier) itemView.resources.getString(R.string.transports_colon) else itemView.resources.getString(
+                        R.string.expects_colon
+                    )}\n" +
                             generateTextForGraphItem(nodeData, itemView.resources)
                 ).show()
-
-
-                onClickListener(1)
+                onClickListener()
             }
             itemView.setOnLongClickListener {
-                onLongClickListener(1)
+                onLongClickListener()
                 true
             }
         }
-
-
     }
-
 }

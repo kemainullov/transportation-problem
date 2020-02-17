@@ -1,5 +1,5 @@
 package com.ainullov.kamil.transportation_problem.presentation.ui.suppliers
 
-import androidx.lifecycle.ViewModel
+import com.ainullov.kamil.transportation_problem.presentation.base.BaseViewModel
 
-class SuppliersViewModel : ViewModel()
+class SuppliersViewModel : BaseViewModel()

@@ -45,6 +45,14 @@ object TransportationProblemSingleton {
 //        transportationProblemData = null
         App.transportationProblemSharedPreferences.removeTransportationProblemData()
         App.transportationProblemSharedPreferences.removeCurrentSolutionId()
+
+        transportationProblemData = TransportationProblemData(
+            supply = intArrayOf(),
+            demand = intArrayOf(),
+            costs = arrayOf(doubleArrayOf())
+        )
+        problemSolutionId = -1
+
     }
 
 }

@@ -1,7 +1,6 @@
 package com.ainullov.kamil.transportation_problem.presentation.ui.history
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.ainullov.kamil.transportation_problem.domain.entities.ProblemSolution
 import com.ainullov.kamil.transportation_problem.domain.entities.state.StateList
 import com.ainullov.kamil.transportation_problem.domain.interactors.HistoryInteractor
@@ -16,7 +15,7 @@ class HistoryViewModel(private val historyInteractor: HistoryInteractor) : BaseV
     val state = MutableLiveData<StateList>().default(initialValue = StateList.Default())
     //state.postValue(State.Default())
 
-    fun getAllProblemSolutions(){
+    fun getAllProblemSolutions() {
         state.set(newValue = StateList.Loading())
         disposables.add(
             historyInteractor.getAllSolutions()
@@ -30,11 +29,7 @@ class HistoryViewModel(private val historyInteractor: HistoryInteractor) : BaseV
         )
     }
 
-    fun delete(problemSolution: ProblemSolution){
-        historyInteractor.delete(problemSolution)
-    }
+    fun delete(problemSolution: ProblemSolution) = historyInteractor.delete(problemSolution)
 
-    fun deleteAll(){
-        historyInteractor.deleteAll()
-    }
+    fun deleteAll() = historyInteractor.deleteAll()
 }

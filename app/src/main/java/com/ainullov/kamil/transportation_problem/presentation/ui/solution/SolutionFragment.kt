@@ -11,7 +11,6 @@ import com.ainullov.kamil.transportation_problem.domain.entities.ProblemSolution
 import com.ainullov.kamil.transportation_problem.domain.entities.Shipment
 import com.ainullov.kamil.transportation_problem.domain.entities.state.State
 import com.ainullov.kamil.transportation_problem.presentation.ui.solution.graph.GraphAdapter
-import com.ainullov.kamil.transportation_problem.transportation_problem.TransportationProblem
 import com.ainullov.kamil.transportation_problem.utils.Const
 import com.ainullov.kamil.transportation_problem.utils.getSolutionDescriptionText
 import com.ainullov.kamil.transportation_problem.utils.singletons.TransportationProblemSingleton
@@ -45,7 +44,6 @@ class SolutionFragment : Fragment() {
         initGraphAdapter()
         lifecycle.addObserver(viewModel)
         observeStates()
-
     }
 
     private fun observeStates() {
@@ -58,11 +56,8 @@ class SolutionFragment : Fragment() {
                 is State.Success<*> -> {
                     when (state.data) {
                         is ProblemSolution -> {
-                            problemSolution =
-                                TransportationProblem(TransportationProblemSingleton.transportationProblemData).execute(
-                                    method
-                                )
-                            prepareDisplay(problemSolution)
+                            problemSolution = state.data
+                            prepareDisplay(state.data)
                         }
                     }
                 }
@@ -81,18 +76,15 @@ class SolutionFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-    }
-
-    override fun onPause() {
-        super.onPause()
+        checkResultVisibility()
     }
 
     private fun initCheckBoxChangeListener() {
-        mb_northwest_corner.setOnCheckedChangeListener { compoundButton, b ->
+        mb_northwest_corner.setOnCheckedChangeListener { _, b ->
             if (b) mb_vogels_approximation.isChecked = false
             method = Const.ReferencePlanMethods.NORTHWEST_CORNER
         }
-        mb_vogels_approximation.setOnCheckedChangeListener { compoundButton, b ->
+        mb_vogels_approximation.setOnCheckedChangeListener { _, b ->
             if (b) mb_northwest_corner.isChecked = false
             method = Const.ReferencePlanMethods.VOGELS_APPROXIMATION
 
@@ -100,34 +92,25 @@ class SolutionFragment : Fragment() {
     }
 
     private fun setOnClickListeners() {
-        btn_solve.setOnClickListener {
-            onBtnSolveClicked()
-        }
+        btn_solve.setOnClickListener { onBtnSolveClicked() }
     }
 
     private fun onBtnSolveClicked() {
-        problemSolution =
-            TransportationProblem(TransportationProblemSingleton.transportationProblemData).execute(
-                method
-            )
-        prepareDisplay(problemSolution)
-        viewModel.saveProblemSolution(problemSolution)
+        viewModel.solveProblem(TransportationProblemSingleton.transportationProblemData, method)
     }
 
-    private fun prepareDisplay(problemSolution: ProblemSolution){
-        tv_minimum_costs.visibility = View.VISIBLE
-        tv_minimum_costs.text = getString(
-            R.string.two_words_separated_by_colon,
-            getString(R.string.minimum_costs),
-            problemSolution.minimumCosts.toString()
-        )
+    private fun prepareDisplay(problemSolution: ProblemSolution) {
+        if (problemSolution.minimumCosts != 0)
+            tv_minimum_costs.text = getString(
+                R.string.two_words_separated_by_colon,
+                getString(R.string.minimum_costs),
+                problemSolution.minimumCosts.toString()
+            )
         tv_solution_description.visibility = View.VISIBLE
         tv_solution_description.text = getSolutionDescriptionText(problemSolution, resources)
-        drawResultGraph(problemSolution.matrix)
         cl_result.visibility = View.VISIBLE
-        TransportationProblemSingleton.updateTransportationProblemSingletonData(problemSolution)
+        drawResultGraph(problemSolution.matrix)
     }
-
 
     private fun initGraphAdapter() {
         val graph = Graph()
@@ -135,7 +118,7 @@ class SolutionFragment : Fragment() {
             onClickListener = {},
             onLongClickListener = {})
         gv_graph.adapter = adapter
-        gv_graph.setOnTouchListener { v, event ->
+        gv_graph.setOnTouchListener { _, _ ->
             sv_solution.requestDisallowInterceptTouchEvent(true)
             false
         }
@@ -152,8 +135,17 @@ class SolutionFragment : Fragment() {
     }
 
     fun onProblemSolutionChanged(solutionId: Long) {
-        viewModel.updateProblemSolution(
-            solutionId
-        )
+        viewModel.updateProblemSolution(solutionId)
+    }
+
+    private fun checkResultVisibility() {
+        if (::problemSolution.isInitialized && TransportationProblemSingleton.transportationProblemData == problemSolution.transportationProblemData) {
+            cl_result.visibility = View.VISIBLE
+            tv_solution_description.visibility = View.VISIBLE
+        } else {
+            cl_result.visibility = View.GONE
+            tv_solution_description.visibility = View.GONE
+            tv_minimum_costs.text = ""
+        }
     }
 }

@@ -6,6 +6,7 @@ import com.ainullov.kamil.transportation_problem.R
 import com.ainullov.kamil.transportation_problem.domain.entities.NodeData
 import com.ainullov.kamil.transportation_problem.domain.entities.ProblemSolution
 import com.ainullov.kamil.transportation_problem.domain.entities.Shipment
+import com.ainullov.kamil.transportation_problem.domain.entities.TransportationProblemData
 import com.ainullov.kamil.transportation_problem.domain.entities.state.State
 import com.ainullov.kamil.transportation_problem.domain.interactors.SolutionInteractor
 import com.ainullov.kamil.transportation_problem.presentation.base.BaseViewModel
@@ -23,7 +24,7 @@ class SolutionViewModel(private val solutionInteractor: SolutionInteractor) : Ba
 
     val state = MutableLiveData<State>().default(initialValue = State.Default())
 
-    fun saveProblemSolution(problemSolution: ProblemSolution) {
+    private fun saveProblemSolution(problemSolution: ProblemSolution) {
         solutionInteractor.insert(problemSolution)
     }
 
@@ -34,20 +35,36 @@ class SolutionViewModel(private val solutionInteractor: SolutionInteractor) : Ba
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    state.set(newValue = State.Success(data = it))
                     TransportationProblemSingleton.updateTransportationProblemSingletonData(it)
+                    state.set(newValue = State.Success(data = it))
                 }, {
                     state.set(newValue = State.Error(message = "Error", errorCode = 1))
                 })
         )
     }
 
+    fun solveProblem(transportationProblemData: TransportationProblemData, method: Int) {
+        state.set(newValue = State.Loading())
+        disposables.add(
+            TransportationProblem(transportationProblemData).execute(method)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ problemSolution ->
+                    saveProblemSolution(problemSolution)
+                    TransportationProblemSingleton.updateTransportationProblemSingletonData(
+                        problemSolution
+                    )
+                    state.set(newValue = State.Success(data = problemSolution))
+                }, {
+                    state.set(newValue = State.Error(message = "Error", errorCode = 1))
+                })
+        )
+    }
 
     fun prepareGraph(result: Array<Array<Shipment>>, resources: Resources): Graph {
         val resultGraph = Graph()
         val listOfSuppliers: MutableList<Node> = mutableListOf()
         val listOfConsumers: MutableList<Node> = mutableListOf()
-
         for (suppliers in TransportationProblemSingleton.transportationProblemData.supply.indices) {
             listOfSuppliers.add(
                 Node(
@@ -73,7 +90,7 @@ class SolutionViewModel(private val solutionInteractor: SolutionInteractor) : Ba
                             (consumers + 1).toString()
                         ),
                         false,
-                        getColumn(result, consumers) as Array<Shipment>
+                        getColumn(result, consumers)
                     )
                 )
             )
@@ -87,7 +104,6 @@ class SolutionViewModel(private val solutionInteractor: SolutionInteractor) : Ba
                 }
             }
         }
-
         return resultGraph
     }
 }

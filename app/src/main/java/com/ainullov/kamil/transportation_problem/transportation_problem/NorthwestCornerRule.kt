@@ -12,7 +12,7 @@ class NorthwestCornerRule(
 
     fun northWestCornerRule(): Array<Array<Shipment>> {
         var northwest = 0
-        for (row in 0 until supply.size)
+        for (row in supply.indices)
             for (column in northwest until demand.size) {
                 val quantity = minOf(supply[row], demand[column]).toDouble()
                 if (quantity > 0.0) {
