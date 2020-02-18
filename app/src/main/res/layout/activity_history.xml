@@ -27,20 +27,13 @@
             android:layout_centerVertical="true"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:textColor="@color/history"
+            android:text="@string/history"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/ll_delete_all"
             app:layout_constraintStart_toEndOf="@+id/ib_back"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.529" />
-
-        <!--        <View-->
-        <!--            android:id="@+id/toolbar_divider"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="1dp"-->
-        <!--            android:background="@color/grey"-->
-        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--            app:layout_constraintEnd_toEndOf="parent"-->
-        <!--            app:layout_constraintStart_toStartOf="parent" />-->
 
         <ImageButton
             android:id="@+id/ib_back"

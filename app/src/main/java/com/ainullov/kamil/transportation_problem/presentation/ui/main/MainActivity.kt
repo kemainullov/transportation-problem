@@ -93,7 +93,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.about -> {
-                    //                        startActivity(AboutAppActivity.newIntent(applicationContext)) //this@MainActivity
+                    startActivity(AboutAppActivity.newIntent(this))
                     true
                 }
                 R.id.exit -> {

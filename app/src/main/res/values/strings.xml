@@ -23,7 +23,7 @@
     <string name="supply">Supply</string>
     <string name="costs">Costs</string>
     <string name="solution">Solution</string>
-    <string name="archive">Archive</string>
+    <string name="history">History</string>
     <string name="about_app">About app</string>
     <string name="reset_task_conditions">Reset task conditions</string>
     <string name="exit">Exit</string>
@@ -56,5 +56,26 @@
 
     <string name="suppliers_quantity">Number of suppliers</string>
     <string name="consumers_quantity">Number of consumers</string>
+    <string name="write">Write</string>
+    <string name="support_email">kainullov@gmail.com</string>
+
+    <string name="about_app_text">This application was created to automate the planning of cargo transportation by solving a transportation problem using the potential method.\n\n
+        There are 4 main screens in the application:\n
+        1) The \"Suppliers\" screen. In it, the user can add suppliers and assign stocks for them. In order to do this, you need to click on the red round button, in the dialog box that appears, enter the stock and click on the "Add" button. A new supplier is added to the list with suppliers. We can remove a supplier by clicking on the cross at a particular supplier or by \“sweeping\” an element with a supplier on the screen to the left or right. We can also swap suppliers by grabbing the element of a specific supplier on the left.\n
+        2) The \"Consumers\" screen. In it, the user can add consumers and assign needs to them. In order to do this, you need to click on the green round button, in the dialog box that appears, enter the need and click on the "Add" button. A new consumer will be added to the list with consumers. We can remove a consumer by clicking on the cross at a specific consumer or by \“sweeping\” an element with a consumer on the screen to the left or right. We can also swap consumers by grabbing the element of a specific consumer on the screen on the left.\n
+        3) The \"Costs\" screen. In it, the user can enter the transportation costs in the matrix formed on the basis of suppliers and consumers, assigned in the "Providers" screen and the "Consumers" screen.\n
+        4) The \"Solution\" screen. In it, the user, by clicking on the button with the inscription "Solve", will be able to obtain a solution to the transport problem using the potential method. The decision will be obtained if the screens are correctly filled: "Suppliers", "Consumers", "Costs". The solution is a graph, the nodes of the graph are suppliers and consumers. Connections between nodes indicate the direction of traffic. Under the graph, detailed decision information will be provided. The minimum costs will be shown above the graph.\n\n
+        You can move between the main screens by swiping, as well as switching menu items at the bottom of the screen.\n
+        There are 2 buttons in the top toolbar:\n
+        By clicking on the button on the left, a menu with three items appears.\n
+        By clicking on the \"Reset task conditions\" item 1, we can clear the data in all 4 main screens.\n
+        By clicking on the \"About Application\" item 2, we will be taken to the \"About Application\" screen.\n
+        By clicking on the \"Exit\" item 3, we will exit the application.\n
+        By clicking on the right \"History\" button in the upper toolbar, we will go to the \"History\" screen.\n
+        About screen. In it, the user can learn about the features of the application and how to use the application.\n
+        There are 2 buttons in the top toolbar on this screen. By clicking on the left arrow back, we will return to the 4 main screens. By clicking on the right, you can contact the creator of the application.\n
+        History screen. All previously solved tasks are saved here. We can delete a solution by clicking on the cross at a particular solution or by \“sweeping\” an element with a solution on the screen to the left or right. We can also click on the solution of interest to us and the resulting solution will be displayed on the screen along with a graph and detailed information about the solution. There are 2 buttons in the top toolbar on this screen. By clicking on the left arrow back, we will return to the 4 main screens. By clicking on the right \"Delete All\", we will clear the history of previously saved solutions.\n\n
+        Have a question? Write to the mail: kainullov@gmail.com\n
+    </string>
 
 </resources>

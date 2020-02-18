@@ -1,5 +1,6 @@
 package com.ainullov.kamil.transportation_problem.presentation.ui.solution
 
+import android.animation.Animator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import com.ainullov.kamil.transportation_problem.presentation.ui.solution.graph.
 import com.ainullov.kamil.transportation_problem.utils.Const
 import com.ainullov.kamil.transportation_problem.utils.getSolutionDescriptionText
 import com.ainullov.kamil.transportation_problem.utils.singletons.TransportationProblemSingleton
+import com.airbnb.lottie.LottieDrawable
 import de.blox.graphview.Graph
 import de.blox.graphview.energy.FruchtermanReingoldAlgorithm
 import kotlinx.android.synthetic.main.solution_fragment.*
@@ -27,7 +29,7 @@ class SolutionFragment : Fragment() {
     }
 
     private val viewModel: SolutionViewModel by viewModel<SolutionViewModel>()
-    private var method = Const.ReferencePlanMethods.NORTHWEST_CORNER
+    private var method = Const.ReferencePlanMethods.VOGELS_APPROXIMATION
     private lateinit var problemSolution: ProblemSolution
 
     override fun onCreateView(
@@ -52,12 +54,12 @@ class SolutionFragment : Fragment() {
                 is State.Default -> {
                 }
                 is State.Loading -> {
+                    onStateLoading()
                 }
                 is State.Success<*> -> {
                     when (state.data) {
                         is ProblemSolution -> {
-                            problemSolution = state.data
-                            prepareDisplay(state.data)
+                            onStateSuccess(state.data)
                         }
                     }
                 }
@@ -71,6 +73,37 @@ class SolutionFragment : Fragment() {
                 }
             }
 
+        })
+    }
+
+    private fun onStateLoading() {
+        cl_anim.visibility = View.VISIBLE
+        loading_animation.visibility = View.VISIBLE
+        loading_animation.progress = 0F
+        loading_animation.pauseAnimation()
+        loading_animation.playAnimation()
+        loading_animation.repeatMode = LottieDrawable.RESTART
+    }
+
+    private fun onStateSuccess(data: ProblemSolution) {
+        check_animation.visibility = View.VISIBLE
+        loading_animation.visibility = View.GONE
+        check_animation.progress = 0F
+        check_animation.pauseAnimation()
+        check_animation.playAnimation()
+        check_animation.addAnimatorListener(object : Animator.AnimatorListener {
+            override fun onAnimationRepeat(p0: Animator?) {}
+
+            override fun onAnimationEnd(p0: Animator?) {
+                cl_anim.visibility = View.GONE
+                check_animation.visibility = View.GONE
+                problemSolution = data
+                prepareDisplay(data)
+            }
+
+            override fun onAnimationCancel(p0: Animator?) {}
+
+            override fun onAnimationStart(p0: Animator?) {}
         })
     }
 

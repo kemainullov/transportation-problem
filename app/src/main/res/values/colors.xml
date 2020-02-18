@@ -13,12 +13,14 @@
     <color name="costs">#F7DB29</color>
     <color name="solution">#2654FC</color>
     <color name="history">#673AB7</color>
+    <color name="about_app">#4FFFD7</color>
 
     <color name="transparent_suppliers">#33FC4141</color>
     <color name="transparent_consumers">#333CFD2E</color>
     <color name="transparent_costs">#33F7DB29</color>
     <color name="transparent_solution">#332654FC</color>
     <color name="transparent_history">#33673AB7</color>
+    <color name="transparent_about_app">#334FFFD7</color>
 
     <color name="transparent">#00000000</color>
 </resources>

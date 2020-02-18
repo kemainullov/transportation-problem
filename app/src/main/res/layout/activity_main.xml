@@ -83,7 +83,7 @@
                 android:layout_height="48dp"
                 android:gravity="center"
                 android:scaleType="fitXY"
-                android:text="@string/archive"
+                android:text="@string/history"
                 android:textColor="@color/defaultTextColor" />
 
         </LinearLayout>

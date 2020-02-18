@@ -176,6 +176,8 @@ class TransportationProblem(
             }
             potentialMethod()
             printResult()
+
+//            Thread.sleep(2500)
             return@fromCallable ProblemSolution(
                 id = 0,
                 transportationProblemData = transportationProblemData,
