@@ -97,7 +97,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.exit -> {
-                    finish() // TODO
+                    finish()
                     true
                 }
                 else -> false

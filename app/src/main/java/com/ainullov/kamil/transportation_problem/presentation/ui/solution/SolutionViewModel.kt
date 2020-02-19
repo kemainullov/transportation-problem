@@ -11,6 +11,7 @@ import com.ainullov.kamil.transportation_problem.domain.entities.state.State
 import com.ainullov.kamil.transportation_problem.domain.interactors.SolutionInteractor
 import com.ainullov.kamil.transportation_problem.presentation.base.BaseViewModel
 import com.ainullov.kamil.transportation_problem.transportation_problem.TransportationProblem
+import com.ainullov.kamil.transportation_problem.utils.Const
 import com.ainullov.kamil.transportation_problem.utils.extensions.default
 import com.ainullov.kamil.transportation_problem.utils.extensions.set
 import com.ainullov.kamil.transportation_problem.utils.getColumn
@@ -37,24 +38,34 @@ class SolutionViewModel(private val solutionInteractor: SolutionInteractor) : Ba
                 .subscribe({
                     state.set(newValue = State.Success(data = it))
                 }, {
-                    state.set(newValue = State.Error(message = "Error", errorCode = 1))
+                    state.set(newValue = State.Error(message = R.string.error, errorCode = Const.ErrorCode.ERROR))
                 })
         )
     }
 
     fun solveProblem(transportationProblemData: TransportationProblemData, method: Int) {
-        state.set(newValue = State.Loading())
-        disposables.add(
-            TransportationProblem(transportationProblemData).execute(method)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ problemSolution ->
-                    saveProblemSolution(problemSolution)
-                    state.set(newValue = State.Success(data = problemSolution))
-                }, {
-                    state.set(newValue = State.Error(message = "Error", errorCode = 1))
-                })
-        )
+        if (problemDataValidation(TransportationProblemSingleton.transportationProblemData)) {
+            state.set(newValue = State.Loading())
+            disposables.add(
+                TransportationProblem(transportationProblemData).execute(method)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({ problemSolution ->
+                        saveProblemSolution(problemSolution)
+                        state.set(newValue = State.Success(data = problemSolution))
+                    }, {
+                        state.set(newValue = State.Error(message = R.string.error, errorCode = Const.ErrorCode.ERROR))
+                    })
+            )
+        } else state.set(newValue = State.Error(message = R.string.incorrect_data, errorCode = Const.ErrorCode.INCORRECT_DATA))
+    }
+
+    private fun problemDataValidation(transportationProblemData: TransportationProblemData): Boolean {
+        if (transportationProblemData.supply.isEmpty()
+            || transportationProblemData.demand.isEmpty()
+            || (transportationProblemData.costs.contentEquals(arrayOf(doubleArrayOf())))
+        ) return false
+        return true
     }
 
     fun prepareGraph(result: Array<Array<Shipment>>, resources: Resources): Graph {

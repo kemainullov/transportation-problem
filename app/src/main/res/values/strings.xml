@@ -36,6 +36,7 @@
     <string name="cancel">Cancel</string>
     <string name="enter">Enter</string>
     <string name="ok">OK</string>
+    <string name="error">Error!</string>
 
     <string name="suppliers_a1_an">Suppliers:\nA[1]..A[n]</string>
     <string name="consumers_b1_bn">Consumers: B[1]..B[m]</string>

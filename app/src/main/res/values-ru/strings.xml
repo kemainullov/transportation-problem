@@ -37,6 +37,7 @@
     <string name="cancel">Отмена</string>
     <string name="enter">Ввести</string>
     <string name="ok">ОК</string>
+    <string name="error">Ошибка!</string>
 
     <string name="suppliers_a1_an">Поставщики:\nA[1]..A[n]</string>
     <string name="consumers_b1_bn">Потребители: B[1]..B[m]</string>

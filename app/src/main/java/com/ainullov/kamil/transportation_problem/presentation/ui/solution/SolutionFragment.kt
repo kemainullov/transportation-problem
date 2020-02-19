@@ -63,23 +63,18 @@ class SolutionFragment : Fragment() {
                 is State.Success<*> -> {
                     when (state.data) {
                         is ProblemSolution -> {
-                            TransportationProblemSingleton.updateTransportationProblemSingletonData(
-                                state.data
-                            )
+                            TransportationProblemSingleton.updateTransportationProblemSingletonData(state.data)
                             onStateSuccess(state.data)
                         }
                     }
                 }
                 is State.Error<*> -> {
                     when (state.message) {
-                        is Int -> {
-                        }
-                        is String -> {
-                        }
+                        is Int -> Toast.makeText(activity, getString(state.message), Toast.LENGTH_SHORT).show()
+                        is String -> Toast.makeText(activity, state.message, Toast.LENGTH_SHORT).show()
                     }
                 }
             }
-
         })
     }
 
@@ -110,7 +105,6 @@ class SolutionFragment : Fragment() {
     private fun initAnimationListeners() {
         check_animation.addAnimatorListener(object : Animator.AnimatorListener {
             override fun onAnimationRepeat(p0: Animator?) {}
-
             override fun onAnimationEnd(p0: Animator?) {
                 cl_anim.visibility = View.GONE
                 check_animation.visibility = View.GONE
@@ -118,7 +112,6 @@ class SolutionFragment : Fragment() {
             }
 
             override fun onAnimationCancel(p0: Animator?) {}
-
             override fun onAnimationStart(p0: Animator?) {}
         })
     }
@@ -139,21 +132,7 @@ class SolutionFragment : Fragment() {
     }
 
     private fun onBtnSolveClicked() {
-        if (problemDataValidation(TransportationProblemSingleton.transportationProblemData))
-            viewModel.solveProblem(TransportationProblemSingleton.transportationProblemData, method)
-        else Toast.makeText(
-            activity ?: App.appContext,
-            resources.getString(R.string.incorrect_data),
-            Toast.LENGTH_SHORT
-        ).show()
-    }
-
-    private fun problemDataValidation(transportationProblemData: TransportationProblemData): Boolean {
-        if (transportationProblemData.supply.isEmpty()
-            || transportationProblemData.demand.isEmpty()
-            || (transportationProblemData.costs.contentEquals(arrayOf(doubleArrayOf())))
-        ) return false
-        return true
+        viewModel.solveProblem(TransportationProblemSingleton.transportationProblemData, method)
     }
 
     private fun prepareDisplay(problemSolution: ProblemSolution) {

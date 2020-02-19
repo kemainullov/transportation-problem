@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -21,10 +22,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class HistoryActivity : AppCompatActivity() {
 
     companion object {
-        fun newIntent(context: Context): Intent {
-            val intent = Intent(context, HistoryActivity::class.java)
-            return intent
-        }
+        fun newIntent(context: Context): Intent = Intent(context, HistoryActivity::class.java)
     }
 
     private val viewModel: HistoryViewModel by viewModel<HistoryViewModel>()
@@ -57,14 +55,11 @@ class HistoryActivity : AppCompatActivity() {
                 }
                 is StateList.Error<*> -> {
                     when (state.message) {
-                        is Int -> {
-                        }
-                        is String -> {
-                        }
+                        is Int -> Toast.makeText(this, getString(state.message), Toast.LENGTH_SHORT).show()
+                        is String -> Toast.makeText(this, state.message, Toast.LENGTH_SHORT).show()
                     }
                 }
             }
-
         })
     }
 

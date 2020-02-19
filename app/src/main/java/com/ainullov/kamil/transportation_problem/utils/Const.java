@@ -18,4 +18,9 @@ public class Const {
     public static final class Extras {
         public static final String SOLUTION_ID = "solution_id";
     }
+
+    public static final class ErrorCode {
+        public static final int ERROR = 0;
+        public static final int INCORRECT_DATA = 1;
+    }
 }
