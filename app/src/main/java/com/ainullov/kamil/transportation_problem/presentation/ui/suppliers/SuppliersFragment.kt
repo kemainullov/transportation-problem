@@ -66,7 +66,6 @@ class SuppliersFragment : Fragment(), OnDialogResultListener,
         )
             suppliersAdapter.updateData(TransportationProblemSingleton.transportationProblemData.supply.toMutableList())
         checkForSuggestions()
-
     }
 
     private fun initSuppliersRecycler() {

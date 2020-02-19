@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ainullov.kamil.transportation_problem.R
+import com.ainullov.kamil.transportation_problem.presentation.base.App
 import com.ainullov.kamil.transportation_problem.presentation.ui.consumers.adapter.ConsumersAdapter
 import com.ainullov.kamil.transportation_problem.utils.adapter.ItemTouchHelperCallback
 import com.ainullov.kamil.transportation_problem.utils.adapter.OnStartDragListener
@@ -54,6 +55,7 @@ class ConsumersFragment : Fragment(), OnDialogResultListener, OnStartDragListene
         super.onResume()
         if (!TransportationProblemSingleton.transportationProblemData.demand.contentEquals(consumersAdapter.list.toIntArray()))
             consumersAdapter.updateData(TransportationProblemSingleton.transportationProblemData.demand.toMutableList())
+        checkForSuggestions()
     }
 
     private fun initConsumersRecycler() {
@@ -81,6 +83,7 @@ class ConsumersFragment : Fragment(), OnDialogResultListener, OnStartDragListene
         rv_consumers.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         rv_consumers.adapter = consumersAdapter
+        checkForSuggestions()
     }
 
     override fun onStartDrag(viewHolder: RecyclerView.ViewHolder) =
@@ -93,6 +96,7 @@ class ConsumersFragment : Fragment(), OnDialogResultListener, OnStartDragListene
     private fun onConsumerItemDeleteClick(position: Int) {
         consumersAdapter.list.removeAt(position)
         consumersAdapter.notifyDataSetChanged()
+        checkForSuggestions()
     }
 
     private fun setOnClickListeners() {
@@ -118,5 +122,37 @@ class ConsumersFragment : Fragment(), OnDialogResultListener, OnStartDragListene
     override fun dialogResultEvent(result: Int) {
         consumersAdapter.list.add(result)
         consumersAdapter.notifyDataSetChanged()
+        checkForSuggestions()
+    }
+
+    private fun checkForSuggestions() {
+        if (!App.transportationProblemSharedPreferences.getCustomBoolean("do_not_show_hints"))
+            when (consumersAdapter.list.size) {
+                0 -> {
+                    cl_add_consumers_hint.visibility = View.VISIBLE
+                    cl_delete_item_hint.visibility = View.GONE
+                    cl_swipe_items_hint.visibility = View.GONE
+                }
+                1 -> {
+                    cl_add_consumers_hint.visibility = View.GONE
+                    cl_delete_item_hint.visibility = View.VISIBLE
+                    cl_swipe_items_hint.visibility = View.GONE
+                }
+                2 -> {
+                    cl_add_consumers_hint.visibility = View.GONE
+                    cl_delete_item_hint.visibility = View.GONE
+                    cl_swipe_items_hint.visibility = View.VISIBLE
+                }
+                else -> {
+                    cl_add_consumers_hint.visibility = View.GONE
+                    cl_delete_item_hint.visibility = View.GONE
+                    cl_swipe_items_hint.visibility = View.GONE
+                }
+            }
+        else {
+            cl_add_consumers_hint.visibility = View.GONE
+            cl_delete_item_hint.visibility = View.GONE
+            cl_swipe_items_hint.visibility = View.GONE
+        }
     }
 }
