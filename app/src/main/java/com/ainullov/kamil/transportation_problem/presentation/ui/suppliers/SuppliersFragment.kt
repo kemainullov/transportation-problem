@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ainullov.kamil.transportation_problem.R
+import com.ainullov.kamil.transportation_problem.presentation.base.App
 import com.ainullov.kamil.transportation_problem.presentation.ui.suppliers.adapter.SuppliersAdapter
 import com.ainullov.kamil.transportation_problem.utils.adapter.ItemTouchHelperCallback
 import com.ainullov.kamil.transportation_problem.utils.adapter.OnStartDragListener
@@ -46,16 +47,26 @@ class SuppliersFragment : Fragment(), OnDialogResultListener,
 
     override fun onPause() {
         super.onPause()
-        if (!TransportationProblemSingleton.transportationProblemData.supply.contentEquals(suppliersAdapter.list.toIntArray())) {
-            TransportationProblemSingleton.transportationProblemData.supply = suppliersAdapter.list.toIntArray()
-            TransportationProblemSingleton.transportationProblemData.costs = arrayOf(doubleArrayOf())
+        if (!TransportationProblemSingleton.transportationProblemData.supply.contentEquals(
+                suppliersAdapter.list.toIntArray()
+            )
+        ) {
+            TransportationProblemSingleton.transportationProblemData.supply =
+                suppliersAdapter.list.toIntArray()
+            TransportationProblemSingleton.transportationProblemData.costs =
+                arrayOf(doubleArrayOf())
         }
     }
 
     override fun onResume() {
         super.onResume()
-        if (!TransportationProblemSingleton.transportationProblemData.supply.contentEquals(suppliersAdapter.list.toIntArray()))
+        if (!TransportationProblemSingleton.transportationProblemData.supply.contentEquals(
+                suppliersAdapter.list.toIntArray()
+            )
+        )
             suppliersAdapter.updateData(TransportationProblemSingleton.transportationProblemData.supply.toMutableList())
+        checkForSuggestions()
+
     }
 
     private fun initSuppliersRecycler() {
@@ -82,6 +93,7 @@ class SuppliersFragment : Fragment(), OnDialogResultListener,
         rv_suppliers.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         rv_suppliers.adapter = suppliersAdapter
+        checkForSuggestions()
     }
 
     override fun onStartDrag(viewHolder: RecyclerView.ViewHolder) {
@@ -95,6 +107,7 @@ class SuppliersFragment : Fragment(), OnDialogResultListener,
     private fun onSupplyItemDeleteClick(position: Int) {
         suppliersAdapter.list.removeAt(position)
         suppliersAdapter.notifyDataSetChanged()
+        checkForSuggestions()
     }
 
     private fun setOnClickListeners() {
@@ -120,5 +133,37 @@ class SuppliersFragment : Fragment(), OnDialogResultListener,
     override fun dialogResultEvent(result: Int) {
         suppliersAdapter.list.add(result)
         suppliersAdapter.notifyDataSetChanged()
+        checkForSuggestions()
+    }
+
+    private fun checkForSuggestions() {
+        if (!App.transportationProblemSharedPreferences.getCustomBoolean("do_not_show_hints"))
+            when (suppliersAdapter.list.size) {
+                0 -> {
+                    cl_add_suppliers_hint.visibility = View.VISIBLE
+                    cl_delete_item_hint.visibility = View.GONE
+                    cl_swipe_items_hint.visibility = View.GONE
+                }
+                1 -> {
+                    cl_add_suppliers_hint.visibility = View.GONE
+                    cl_delete_item_hint.visibility = View.VISIBLE
+                    cl_swipe_items_hint.visibility = View.GONE
+                }
+                2 -> {
+                    cl_add_suppliers_hint.visibility = View.GONE
+                    cl_delete_item_hint.visibility = View.GONE
+                    cl_swipe_items_hint.visibility = View.VISIBLE
+                }
+                else -> {
+                    cl_add_suppliers_hint.visibility = View.GONE
+                    cl_delete_item_hint.visibility = View.GONE
+                    cl_swipe_items_hint.visibility = View.GONE
+                }
+            }
+        else {
+            cl_add_suppliers_hint.visibility = View.GONE
+            cl_delete_item_hint.visibility = View.GONE
+            cl_swipe_items_hint.visibility = View.GONE
+        }
     }
 }

@@ -55,8 +55,7 @@ class SuppliersAdapter(
     }
 
     override fun onItemDismiss(position: Int) {
-        list.removeAt(position)
-        notifyDataSetChanged()
+        onDeleteClickListener(position)
     }
 
     override fun onItemSelected(viewHolder: RecyclerView.ViewHolder?) {

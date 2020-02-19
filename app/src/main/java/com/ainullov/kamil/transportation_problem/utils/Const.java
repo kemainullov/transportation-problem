@@ -7,6 +7,7 @@ public class Const {
         public static final String DEMAND = "demand";
         public static final String COSTS = "costs";
         public static final String PROBLEM_SOLUTION_ID = "problem_solution_id";
+        public static final String DO_NOT_SHOW_HINTS = "do_not_show_hints";
     }
 
     public static final class ReferencePlanMethods{
