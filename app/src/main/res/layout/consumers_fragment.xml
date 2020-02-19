@@ -50,8 +50,8 @@
 
         <ImageView
             android:id="@+id/iv_add_consumers_hint"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:rotation="180"
             android:src="@drawable/ic_arrow_curve_up"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -87,8 +87,8 @@
 
         <ImageView
             android:id="@+id/iv_delete_item_hint"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:layout_marginEnd="50dp"
             android:src="@drawable/ic_arrow_curve_from_corner_to_corner_in_diameter"
             app:layout_constraintEnd_toEndOf="parent"
