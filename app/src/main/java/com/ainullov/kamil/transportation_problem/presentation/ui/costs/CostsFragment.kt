@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.ainullov.kamil.transportation_problem.R
+import com.ainullov.kamil.transportation_problem.presentation.base.App
 import com.ainullov.kamil.transportation_problem.presentation.ui.costs.adapter.CostsAdapter
 import com.ainullov.kamil.transportation_problem.utils.singletons.TransportationProblemSingleton
 import kotlinx.android.synthetic.main.costs_fragment.*
@@ -42,6 +43,7 @@ class CostsFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         checkSituation()
+        checkForSuggestions()
     }
 
     override fun onPause() {
@@ -62,9 +64,9 @@ class CostsFragment : Fragment() {
             })
 
         tv_horizontal.visibility =
-            if (consumers.isNotEmpty() || suppliers.isNotEmpty()) View.VISIBLE else View.GONE
+            if (consumers.isNotEmpty() && suppliers.isNotEmpty()) View.VISIBLE else View.GONE
         tv_vertical.visibility =
-            if (consumers.isNotEmpty() || suppliers.isNotEmpty()) View.VISIBLE else View.GONE
+            if (consumers.isNotEmpty() && suppliers.isNotEmpty()) View.VISIBLE else View.GONE
         rv_costs.layoutManager =
             GridLayoutManager(activity, if (consumers.isNotEmpty()) consumers.size else 1)
         rv_costs.adapter = costsAdapter
@@ -85,7 +87,10 @@ class CostsFragment : Fragment() {
 
     private fun fillMatrix() {
         if (suppliers.size == TransportationProblemSingleton.transportationProblemData.supply.size && consumers.size == TransportationProblemSingleton.transportationProblemData.demand.size) {
-            if (TransportationProblemSingleton.transportationProblemData.costs.isNotEmpty() && costs.isNotEmpty() && costs.contentDeepEquals(TransportationProblemSingleton.transportationProblemData.costs)) {
+            if (TransportationProblemSingleton.transportationProblemData.costs.isNotEmpty() && costs.isNotEmpty() && costs.contentDeepEquals(
+                    TransportationProblemSingleton.transportationProblemData.costs
+                )
+            ) {
                 val list = mutableListOf<Int>()
                 for (i in TransportationProblemSingleton.transportationProblemData.costs)
                     for (j in i)
@@ -96,4 +101,14 @@ class CostsFragment : Fragment() {
         }
     }
 
+    private fun checkForSuggestions() {
+        if (!App.transportationProblemSharedPreferences.getCustomBoolean("do_not_show_hints"))
+            when (costsAdapter.list.size) {
+                0 -> {
+                    cl_fill_costs_hint.visibility = View.VISIBLE
+                }
+                else -> cl_fill_costs_hint.visibility = View.GONE
+            }
+        else cl_fill_costs_hint.visibility = View.GONE
+    }
 }

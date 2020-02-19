@@ -57,6 +57,45 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_horizontal">
 
             </androidx.recyclerview.widget.RecyclerView>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_fill_costs_hint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/tv_fill_costs_hint"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/fill_costs_hint"
+                    android:textColor="@color/defaultTextColor"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/iv_fill_costs_hint"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="8dp"
+                    android:src="@drawable/ic_arrow_loop"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_fill_costs_hint"
+                    app:layout_constraintEnd_toEndOf="@+id/tv_fill_costs_hint"
+                    app:layout_constraintStart_toStartOf="@+id/tv_fill_costs_hint"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </HorizontalScrollView>
 

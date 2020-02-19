@@ -59,11 +59,14 @@
     <string name="write">Написать</string>
     <string name="support_email">kainullov@gmail.com</string>
     <string name="do_not_show_hints">Не показывать подсказки</string>
+    <string name="incorrect_data">Некорректные данные</string>
 
     <string name="add_suppliers_hint">Нажмите, чтобы добавить поставщика</string>
     <string name="add_consumers_hint">Нажмите, чтобы добавить потребителя</string>
     <string name="delete_item_hint">Вы можете нажать на крестик, чтобы удалить элемент или \"смахнуть\" элемент с экрана для удаления</string>
     <string name="swipe_items_hint">Если взять элемент слева, то можно поменять его местами с другими элементами</string>
+    <string name="fill_costs_hint">Здесь отобразится матрица затрат, построенная на основе числа поставщиков и числа потребителей</string>
+    <string name="get_solution_hint">Для получения решения нажмите на кнопку \"Решить\", предварительно необходимо заполнить экраны: \"Поставщики\", \"Потребители\", \"Затраты\"</string>
 
     <string name="about_app_text">Данное приложение создано для автоматизации планирования грузоперевозок решением транспортной задачи с использованием метода потенциалов.\n\n
         В приложении есть 4 основных экрана:\n

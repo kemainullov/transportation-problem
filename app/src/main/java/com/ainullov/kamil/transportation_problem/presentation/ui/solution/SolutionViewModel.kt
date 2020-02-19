@@ -35,7 +35,6 @@ class SolutionViewModel(private val solutionInteractor: SolutionInteractor) : Ba
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    TransportationProblemSingleton.updateTransportationProblemSingletonData(it)
                     state.set(newValue = State.Success(data = it))
                 }, {
                     state.set(newValue = State.Error(message = "Error", errorCode = 1))
@@ -51,9 +50,6 @@ class SolutionViewModel(private val solutionInteractor: SolutionInteractor) : Ba
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ problemSolution ->
                     saveProblemSolution(problemSolution)
-                    TransportationProblemSingleton.updateTransportationProblemSingletonData(
-                        problemSolution
-                    )
                     state.set(newValue = State.Success(data = problemSolution))
                 }, {
                     state.set(newValue = State.Error(message = "Error", errorCode = 1))

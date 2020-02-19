@@ -5,12 +5,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.ainullov.kamil.transportation_problem.R
 import com.ainullov.kamil.transportation_problem.domain.entities.ProblemSolution
 import com.ainullov.kamil.transportation_problem.domain.entities.Shipment
+import com.ainullov.kamil.transportation_problem.domain.entities.TransportationProblemData
 import com.ainullov.kamil.transportation_problem.domain.entities.state.State
+import com.ainullov.kamil.transportation_problem.presentation.base.App
 import com.ainullov.kamil.transportation_problem.presentation.ui.solution.graph.GraphAdapter
 import com.ainullov.kamil.transportation_problem.utils.Const
 import com.ainullov.kamil.transportation_problem.utils.getSolutionDescriptionText
@@ -44,6 +47,7 @@ class SolutionFragment : Fragment() {
         initCheckBoxChangeListener()
         setOnClickListeners()
         initGraphAdapter()
+        initAnimationListeners()
         lifecycle.addObserver(viewModel)
         observeStates()
     }
@@ -59,6 +63,9 @@ class SolutionFragment : Fragment() {
                 is State.Success<*> -> {
                     when (state.data) {
                         is ProblemSolution -> {
+                            TransportationProblemSingleton.updateTransportationProblemSingletonData(
+                                state.data
+                            )
                             onStateSuccess(state.data)
                         }
                     }
@@ -86,30 +93,34 @@ class SolutionFragment : Fragment() {
     }
 
     private fun onStateSuccess(data: ProblemSolution) {
+        problemSolution = data
         check_animation.visibility = View.VISIBLE
         loading_animation.visibility = View.GONE
         check_animation.progress = 0F
         check_animation.pauseAnimation()
         check_animation.playAnimation()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        checkResultVisibility()
+        checkForSuggestions()
+    }
+
+    private fun initAnimationListeners() {
         check_animation.addAnimatorListener(object : Animator.AnimatorListener {
             override fun onAnimationRepeat(p0: Animator?) {}
 
             override fun onAnimationEnd(p0: Animator?) {
                 cl_anim.visibility = View.GONE
                 check_animation.visibility = View.GONE
-                problemSolution = data
-                prepareDisplay(data)
+                prepareDisplay(problemSolution)
             }
 
             override fun onAnimationCancel(p0: Animator?) {}
 
             override fun onAnimationStart(p0: Animator?) {}
         })
-    }
-
-    override fun onResume() {
-        super.onResume()
-        checkResultVisibility()
     }
 
     private fun initCheckBoxChangeListener() {
@@ -120,7 +131,6 @@ class SolutionFragment : Fragment() {
         mb_vogels_approximation.setOnCheckedChangeListener { _, b ->
             if (b) mb_northwest_corner.isChecked = false
             method = Const.ReferencePlanMethods.VOGELS_APPROXIMATION
-
         }
     }
 
@@ -129,7 +139,21 @@ class SolutionFragment : Fragment() {
     }
 
     private fun onBtnSolveClicked() {
-        viewModel.solveProblem(TransportationProblemSingleton.transportationProblemData, method)
+        if (problemDataValidation(TransportationProblemSingleton.transportationProblemData))
+            viewModel.solveProblem(TransportationProblemSingleton.transportationProblemData, method)
+        else Toast.makeText(
+            activity ?: App.appContext,
+            resources.getString(R.string.incorrect_data),
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
+    private fun problemDataValidation(transportationProblemData: TransportationProblemData): Boolean {
+        if (transportationProblemData.supply.isEmpty()
+            || transportationProblemData.demand.isEmpty()
+            || (transportationProblemData.costs.contentEquals(arrayOf(doubleArrayOf())))
+        ) return false
+        return true
     }
 
     private fun prepareDisplay(problemSolution: ProblemSolution) {
@@ -142,6 +166,7 @@ class SolutionFragment : Fragment() {
         tv_solution_description.visibility = View.VISIBLE
         tv_solution_description.text = getSolutionDescriptionText(problemSolution, resources)
         cl_result.visibility = View.VISIBLE
+        checkForSuggestions()
         drawResultGraph(problemSolution.matrix)
     }
 
@@ -180,5 +205,12 @@ class SolutionFragment : Fragment() {
             tv_solution_description.visibility = View.GONE
             tv_minimum_costs.text = ""
         }
+    }
+
+    private fun checkForSuggestions() {
+        if (!App.transportationProblemSharedPreferences.getCustomBoolean("do_not_show_hints"))
+            cl_get_solution_hint.visibility =
+                if (cl_result.visibility == View.GONE) View.VISIBLE else View.GONE
+        else cl_get_solution_hint.visibility = View.GONE
     }
 }

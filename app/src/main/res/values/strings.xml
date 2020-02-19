@@ -59,11 +59,14 @@
     <string name="write">Write</string>
     <string name="support_email">kainullov@gmail.com</string>
     <string name="do_not_show_hints">Don\'t show hints</string>
+    <string name="incorrect_data">Incorrect data</string>
 
     <string name="add_suppliers_hint">Click to add a supplier</string>
     <string name="add_consumers_hint">Click to add a consumer</string>
     <string name="delete_item_hint">You can click on the cross to remove an item or \"swipe\" an item from the screen to delete</string>
     <string name="swipe_items_hint">If you take an element on the left, you can swap it with other elements</string>
+    <string name="fill_costs_hint">The cost matrix is displayed here, based on the number of suppliers and the number of consumers.</string>
+    <string name="get_solution_hint">To get a solution, click on the \"Solve\" button, first you need to fill in the screens: \"Suppliers\", \"Consumers\", \"Costs\"</string>
 
 
     <string name="about_app_text">This application was created to automate the planning of cargo transportation by solving a transportation problem using the potential method.\n\n
