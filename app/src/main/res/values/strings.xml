@@ -6,10 +6,8 @@
     <string name="two_words_separated_by_space">%1$s %2$s</string>
     <string name="two_words_without_separating">%1$s%2$s</string>
 
-
     <string name="app_name">Transportation problem</string>
     <string name="preference_file_key">transportation_problem_settings</string>
-
 
     <string name="suppliers">Suppliers</string>
     <string name="consumers">Consumers</string>

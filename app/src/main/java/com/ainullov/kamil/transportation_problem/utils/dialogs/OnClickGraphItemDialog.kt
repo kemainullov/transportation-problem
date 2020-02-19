@@ -5,7 +5,6 @@ import android.content.Context
 import android.os.Bundle
 import android.view.ViewGroup
 import android.view.WindowManager.LayoutParams.FLAG_DIM_BEHIND
-import android.view.WindowManager.LayoutParams.WRAP_CONTENT
 import com.ainullov.kamil.transportation_problem.R
 import kotlinx.android.synthetic.main.dialog_onclick_graph_item.*
 

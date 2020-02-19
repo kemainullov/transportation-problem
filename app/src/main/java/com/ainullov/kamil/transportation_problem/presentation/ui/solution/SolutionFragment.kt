@@ -208,7 +208,7 @@ class SolutionFragment : Fragment() {
     }
 
     private fun checkForSuggestions() {
-        if (!App.transportationProblemSharedPreferences.getCustomBoolean("do_not_show_hints"))
+        if (!App.transportationProblemSharedPreferences.getCustomBoolean(Const.PrefKeys.DO_NOT_SHOW_HINTS))
             cl_get_solution_hint.visibility =
                 if (cl_result.visibility == View.GONE) View.VISIBLE else View.GONE
         else cl_get_solution_hint.visibility = View.GONE

@@ -10,7 +10,7 @@ class SolutionInteractor(private val solutionRepository: SolutionRepository) {
         return solutionRepository.getSolutionById(id)
     }
 
-    fun insert(problemSolution: ProblemSolution){
+    fun insert(problemSolution: ProblemSolution) {
         solutionRepository.insert(problemSolution)
     }
 }

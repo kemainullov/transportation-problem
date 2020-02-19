@@ -11,15 +11,15 @@ class HistoryInteractor(private val solutionRepository: SolutionRepository) {
         return solutionRepository.getSolutionById(id)
     }
 
-    fun getAllSolutions(): Flowable<List<ProblemSolution>>{
+    fun getAllSolutions(): Flowable<List<ProblemSolution>> {
         return solutionRepository.loadAll()
     }
 
-    fun delete(problemSolution: ProblemSolution){
+    fun delete(problemSolution: ProblemSolution) {
         solutionRepository.delete(problemSolution)
     }
 
-    fun deleteAll(){
+    fun deleteAll() {
         solutionRepository.deleteAll()
     }
 }

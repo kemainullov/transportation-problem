@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.ainullov.kamil.transportation_problem.R
 import com.ainullov.kamil.transportation_problem.presentation.base.App
 import com.ainullov.kamil.transportation_problem.presentation.ui.costs.adapter.CostsAdapter
+import com.ainullov.kamil.transportation_problem.utils.Const
 import com.ainullov.kamil.transportation_problem.utils.singletons.TransportationProblemSingleton
 import kotlinx.android.synthetic.main.costs_fragment.*
 
@@ -102,7 +103,7 @@ class CostsFragment : Fragment() {
     }
 
     private fun checkForSuggestions() {
-        if (!App.transportationProblemSharedPreferences.getCustomBoolean("do_not_show_hints"))
+        if (!App.transportationProblemSharedPreferences.getCustomBoolean(Const.PrefKeys.DO_NOT_SHOW_HINTS))
             when (costsAdapter.list.size) {
                 0 -> {
                     cl_fill_costs_hint.visibility = View.VISIBLE

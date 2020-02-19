@@ -8,7 +8,7 @@ data class Shipment(
     val costPerUnit: Double,
     val row: Int,
     val column: Int
-): Parcelable {
+) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readDouble(),
         parcel.readDouble(),

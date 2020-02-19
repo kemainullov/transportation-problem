@@ -42,7 +42,6 @@ object TransportationProblemSingleton {
     }
 
     fun removeTransportationProblemSingletonData() {
-//        transportationProblemData = null
         App.transportationProblemSharedPreferences.removeTransportationProblemData()
         App.transportationProblemSharedPreferences.removeCurrentSolutionId()
 

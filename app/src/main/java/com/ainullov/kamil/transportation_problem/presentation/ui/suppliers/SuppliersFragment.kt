@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ainullov.kamil.transportation_problem.R
 import com.ainullov.kamil.transportation_problem.presentation.base.App
 import com.ainullov.kamil.transportation_problem.presentation.ui.suppliers.adapter.SuppliersAdapter
+import com.ainullov.kamil.transportation_problem.utils.Const
 import com.ainullov.kamil.transportation_problem.utils.adapter.ItemTouchHelperCallback
 import com.ainullov.kamil.transportation_problem.utils.adapter.OnStartDragListener
 import com.ainullov.kamil.transportation_problem.utils.dialogs.EditTextWithTwoButtonsAndTextViewDialog
@@ -136,7 +137,7 @@ class SuppliersFragment : Fragment(), OnDialogResultListener,
     }
 
     private fun checkForSuggestions() {
-        if (!App.transportationProblemSharedPreferences.getCustomBoolean("do_not_show_hints"))
+        if (!App.transportationProblemSharedPreferences.getCustomBoolean(Const.PrefKeys.DO_NOT_SHOW_HINTS))
             when (suppliersAdapter.list.size) {
                 0 -> {
                     cl_add_suppliers_hint.visibility = View.VISIBLE

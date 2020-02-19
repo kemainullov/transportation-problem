@@ -7,6 +7,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.ainullov.kamil.transportation_problem.R
 import com.ainullov.kamil.transportation_problem.presentation.base.App
+import com.ainullov.kamil.transportation_problem.utils.Const
 import kotlinx.android.synthetic.main.activity_about_app.*
 
 class AboutAppActivity : AppCompatActivity() {
@@ -29,9 +30,9 @@ class AboutAppActivity : AppCompatActivity() {
 
     private fun initCheckBoxChangeListener() {
         cb_do_not_show_hints.isChecked =
-            App.transportationProblemSharedPreferences.getCustomBoolean("do_not_show_hints")
+            App.transportationProblemSharedPreferences.getCustomBoolean(Const.PrefKeys.DO_NOT_SHOW_HINTS)
         cb_do_not_show_hints.setOnCheckedChangeListener { _, b ->
-            App.transportationProblemSharedPreferences.setCustomBoolean("do_not_show_hints", b)
+            App.transportationProblemSharedPreferences.setCustomBoolean(Const.PrefKeys.DO_NOT_SHOW_HINTS, b)
         }
     }
 

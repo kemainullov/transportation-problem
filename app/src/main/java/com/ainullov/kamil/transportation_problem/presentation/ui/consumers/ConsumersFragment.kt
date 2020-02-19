@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ainullov.kamil.transportation_problem.R
 import com.ainullov.kamil.transportation_problem.presentation.base.App
 import com.ainullov.kamil.transportation_problem.presentation.ui.consumers.adapter.ConsumersAdapter
+import com.ainullov.kamil.transportation_problem.utils.Const
 import com.ainullov.kamil.transportation_problem.utils.adapter.ItemTouchHelperCallback
 import com.ainullov.kamil.transportation_problem.utils.adapter.OnStartDragListener
 import com.ainullov.kamil.transportation_problem.utils.dialogs.EditTextWithTwoButtonsAndTextViewDialog
@@ -45,15 +46,23 @@ class ConsumersFragment : Fragment(), OnDialogResultListener, OnStartDragListene
 
     override fun onPause() {
         super.onPause()
-        if (!TransportationProblemSingleton.transportationProblemData.demand.contentEquals(consumersAdapter.list.toIntArray())) {
-            TransportationProblemSingleton.transportationProblemData.demand = consumersAdapter.list.toIntArray()
-            TransportationProblemSingleton.transportationProblemData.costs = arrayOf(doubleArrayOf())
+        if (!TransportationProblemSingleton.transportationProblemData.demand.contentEquals(
+                consumersAdapter.list.toIntArray()
+            )
+        ) {
+            TransportationProblemSingleton.transportationProblemData.demand =
+                consumersAdapter.list.toIntArray()
+            TransportationProblemSingleton.transportationProblemData.costs =
+                arrayOf(doubleArrayOf())
         }
     }
 
     override fun onResume() {
         super.onResume()
-        if (!TransportationProblemSingleton.transportationProblemData.demand.contentEquals(consumersAdapter.list.toIntArray()))
+        if (!TransportationProblemSingleton.transportationProblemData.demand.contentEquals(
+                consumersAdapter.list.toIntArray()
+            )
+        )
             consumersAdapter.updateData(TransportationProblemSingleton.transportationProblemData.demand.toMutableList())
         checkForSuggestions()
     }
@@ -126,7 +135,7 @@ class ConsumersFragment : Fragment(), OnDialogResultListener, OnStartDragListene
     }
 
     private fun checkForSuggestions() {
-        if (!App.transportationProblemSharedPreferences.getCustomBoolean("do_not_show_hints"))
+        if (!App.transportationProblemSharedPreferences.getCustomBoolean(Const.PrefKeys.DO_NOT_SHOW_HINTS))
             when (consumersAdapter.list.size) {
                 0 -> {
                     cl_add_consumers_hint.visibility = View.VISIBLE
