@@ -2,6 +2,7 @@ package com.ainullov.kamil.transportation_problem.presentation.ui.solution
 
 import android.content.res.Resources
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.ainullov.kamil.transportation_problem.R
 import com.ainullov.kamil.transportation_problem.domain.entities.NodeData
 import com.ainullov.kamil.transportation_problem.domain.entities.ProblemSolution
@@ -13,13 +14,15 @@ import com.ainullov.kamil.transportation_problem.presentation.base.BaseViewModel
 import com.ainullov.kamil.transportation_problem.transportation_problem.TransportationProblem
 import com.ainullov.kamil.transportation_problem.utils.Const
 import com.ainullov.kamil.transportation_problem.utils.extensions.default
+import com.ainullov.kamil.transportation_problem.utils.extensions.post
 import com.ainullov.kamil.transportation_problem.utils.extensions.set
 import com.ainullov.kamil.transportation_problem.utils.getColumn
 import com.ainullov.kamil.transportation_problem.utils.singletons.TransportationProblemSingleton
 import de.blox.graphview.Graph
 import de.blox.graphview.Node
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class SolutionViewModel(private val solutionInteractor: SolutionInteractor) : BaseViewModel() {
 
@@ -31,32 +34,34 @@ class SolutionViewModel(private val solutionInteractor: SolutionInteractor) : Ba
 
     fun updateProblemSolution(problemSolutionId: Long) {
         state.set(newValue = State.Loading())
-        disposables.add(
-            solutionInteractor.getSolutionById(problemSolutionId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    state.set(newValue = State.Success(data = it))
-                }, {
-                    state.set(newValue = State.Error(message = R.string.error, errorCode = Const.ErrorCode.ERROR))
-                })
-        )
+        viewModelScope.launch {
+            withContext(Dispatchers.IO){
+                try {
+                    val result = solutionInteractor.getSolutionById(problemSolutionId)
+                    state.post(newValue = State.Success(data = result))
+                } catch (e: Exception){
+                    state.post(newValue = State.Error(message = R.string.error, errorCode = Const.ErrorCode.ERROR))
+                }
+
+            }
+        }
     }
 
     fun solveProblem(transportationProblemData: TransportationProblemData, method: Int) {
         if (problemDataValidation(TransportationProblemSingleton.transportationProblemData)) {
             state.set(newValue = State.Loading())
-            disposables.add(
-                TransportationProblem(transportationProblemData).execute(method)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ problemSolution ->
-                        saveProblemSolution(problemSolution)
-                        state.set(newValue = State.Success(data = problemSolution))
-                    }, {
-                        state.set(newValue = State.Error(message = R.string.error, errorCode = Const.ErrorCode.ERROR))
-                    })
-            )
+            viewModelScope.launch {
+                withContext(Dispatchers.IO){
+                    try {
+                        val result =  TransportationProblem(transportationProblemData).execute(method)
+                        saveProblemSolution(result)
+                        state.post(newValue = State.Success(data = result))
+                    } catch (e: Exception){
+                        state.post(newValue = State.Error(message = R.string.error, errorCode = Const.ErrorCode.ERROR))
+                    }
+
+                }
+            }
         } else state.set(newValue = State.Error(message = R.string.incorrect_data, errorCode = Const.ErrorCode.INCORRECT_DATA))
     }
 

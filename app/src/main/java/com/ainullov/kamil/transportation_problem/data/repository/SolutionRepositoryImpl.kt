@@ -4,8 +4,8 @@ import com.ainullov.kamil.transportation_problem.data.db.dao.TransportationProbl
 import com.ainullov.kamil.transportation_problem.data.mapper.ProblemSolutionMapper
 import com.ainullov.kamil.transportation_problem.domain.entities.ProblemSolution
 import com.ainullov.kamil.transportation_problem.domain.repository.SolutionRepository
-import io.reactivex.Flowable
-import io.reactivex.Single
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class SolutionRepositoryImpl(
     private val transportationProblemDao: TransportationProblemDao,
@@ -15,7 +15,7 @@ class SolutionRepositoryImpl(
         return transportationProblemDao.insert(problemSolutionMapper.mapTo(problemSolution))
     }
 
-    override fun loadAll(): Flowable<List<ProblemSolution>> {
+    override fun loadAll(): Flow<List<ProblemSolution>> {
         return transportationProblemDao.loadAll()
             .map { problemSolutionMapper.mapFrom(it) }
     }
@@ -28,10 +28,9 @@ class SolutionRepositoryImpl(
         transportationProblemDao.deleteAll()
     }
 
-    override fun getSolutionById(id: Long): Single<ProblemSolution> {
-        return transportationProblemDao.getSolutionById(id)
-            .map { problemSolutionMapper.mapFrom(it) }
-    }
+    override suspend fun getSolutionById(id: Long): ProblemSolution =
+        problemSolutionMapper.mapFrom(transportationProblemDao.getSolutionById(id))
+
 
     override fun update(problemSolution: ProblemSolution) {
         transportationProblemDao.update(problemSolutionMapper.mapTo(problemSolution))

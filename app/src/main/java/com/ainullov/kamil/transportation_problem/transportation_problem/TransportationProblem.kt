@@ -4,7 +4,6 @@ import com.ainullov.kamil.transportation_problem.domain.entities.ProblemSolution
 import com.ainullov.kamil.transportation_problem.domain.entities.Shipment
 import com.ainullov.kamil.transportation_problem.domain.entities.TransportationProblemData
 import com.ainullov.kamil.transportation_problem.utils.Const
-import io.reactivex.Flowable
 import java.util.*
 
 class TransportationProblem(
@@ -166,24 +165,21 @@ class TransportationProblem(
         println("\nTotal costs: $totalCosts\n")
     }
 
-    fun execute(method: Int): Flowable<ProblemSolution> {
-        return Flowable.fromCallable {
-            when (method) {
-                Const.ReferencePlanMethods.NORTHWEST_CORNER -> matrix =
-                    NorthwestCornerRule(supply, demand, balancedCosts).northWestCornerRule()
-                Const.ReferencePlanMethods.VOGELS_APPROXIMATION -> matrix =
-                    VogelApproximation(supply, demand, balancedCosts).vogelApproximation()
-            }
-            potentialMethod()
-            printResult()
-
-//            Thread.sleep(2500)
-            return@fromCallable ProblemSolution(
-                id = 0,
-                transportationProblemData = transportationProblemData,
-                minimumCosts = totalCosts.toInt(),
-                matrix = matrix
-            )
+    fun execute(method: Int): ProblemSolution {
+        when (method) {
+            Const.ReferencePlanMethods.NORTHWEST_CORNER -> matrix =
+                NorthwestCornerRule(supply, demand, balancedCosts).northWestCornerRule()
+            Const.ReferencePlanMethods.VOGELS_APPROXIMATION -> matrix =
+                VogelApproximation(supply, demand, balancedCosts).vogelApproximation()
         }
+        potentialMethod()
+        printResult()
+
+        return ProblemSolution(
+            id = 0,
+            transportationProblemData = transportationProblemData,
+            minimumCosts = totalCosts.toInt(),
+            matrix = matrix
+        )
     }
 }
